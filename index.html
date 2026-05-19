@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bearzenker — AI Training, Systems, &amp; Decision Support</title>
+<meta name="description" content="AI training and decision support for the federal workforce in the Washington, DC and Baltimore, MD metropolitan areas. Built for the tools your network actually allows." />
+<link rel="canonical" href="https://bearzenker.com/" />
+<meta property="og:title" content="Bearzenker — AI Training, Systems, &amp; Decision Support" />
+<meta property="og:description" content="AI training and decision support for the federal workforce. Built for the tools your network actually allows." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://bearzenker.com/" />
+<meta property="og:image" content="https://bearzenker.com/images/bearzenker-bear.png" />
+<link rel="icon" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231f4030'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='18' font-weight='700' text-anchor='middle' fill='%23f3efe6'%3EB%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #0e0f0d;
+    --ink-soft: #2a2c28;
+    --ink-muted: #5b5e57;
+    --paper: #f3efe6;
+    --paper-warm: #ece7da;
+    --rule: #1a1b18;
+    --rule-soft: #cfc8b6;
+    --forest: #1f4030;
+    --forest-deep: #0e2419;
+    --forest-bright: #2e6b4d;
+    --accent: #c98a2b;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection { background: var(--forest); color: var(--paper); }
+
+  a { color: inherit; text-decoration: none; }
+  a.link {
+    color: var(--forest);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+    transition: color .2s ease;
+  }
+  a.link:hover { color: var(--ink); }
+
+  .mono {
+    font-family: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+
+  /* ---------- top bar ---------- */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    backdrop-filter: saturate(140%) blur(8px);
+  }
+  .topbar-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 18px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .wordmark {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    font-size: 14px;
+    color: var(--forest);
+  }
+  .wordmark::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: var(--forest);
+    margin-right: 12px;
+    transform: translateY(1px);
+  }
+  .navlinks {
+    display: flex;
+    gap: 28px;
+  }
+  .navlinks a {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    transition: color .15s ease;
+  }
+  .navlinks a:hover { color: var(--forest); }
+  .navlinks a .num { color: var(--ink-muted); margin-right: 6px; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  .hero-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    min-height: calc(100vh - 60px);
+    align-items: stretch;
+  }
+  .hero-text {
+    padding: 80px 56px 80px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--rule);
+  }
+  .hero-eyebrow {
+    color: var(--ink-muted);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hero-eyebrow::before {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: var(--ink-muted);
+  }
+  .brand {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    font-size: clamp(40px, 5vw, 70px);
+    line-height: 0.92;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+  .brand-dot {
+    display: inline-block;
+    color: var(--forest);
+    font-weight: 700;
+  }
+  .brand-sub {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 56px;
+  }
+  .hero-lede {
+    font-size: clamp(20px, 1.8vw, 24px);
+    line-height: 1.4;
+    color: var(--ink);
+    font-weight: 400;
+    max-width: 38ch;
+    margin: 0 0 40px;
+    text-wrap: pretty;
+  }
+  .hero-lede strong {
+    font-weight: 600;
+    color: var(--forest);
+  }
+  .hero-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: auto;
+  }
+  .hero-meta-row {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 24px;
+    align-items: baseline;
+    font-size: 14px;
+  }
+  .hero-meta-row .mono { color: var(--ink-muted); }
+  .hero-meta-row span:last-child { color: var(--ink-soft); }
+
+  .hero-image {
+    position: relative;
+    overflow: hidden;
+    background: var(--forest-deep);
+  }
+  .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(1.02) contrast(1.02);
+  }
+  .hero-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(14,36,25,0) 60%, rgba(14,36,25,.45) 100%),
+      linear-gradient(0deg, rgba(14,36,25,.08), rgba(14,36,25,.08));
+    pointer-events: none;
+  }
+  .hero-caption {
+    position: absolute;
+    left: 24px;
+    bottom: 20px;
+    color: rgba(243,239,230,.78);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-caption::before {
+    content: "";
+    width: 18px;
+    height: 1px;
+    background: rgba(243,239,230,.5);
+  }
+
+  /* ---------- section scaffolding ---------- */
+  section { border-bottom: 1px solid var(--rule); }
+  .section-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 120px 40px;
+  }
+  .section-head {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 64px;
+    align-items: start;
+    margin-bottom: 80px;
+  }
+  .section-head .mono { color: var(--ink-muted); padding-top: 12px; }
+  .section-title {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 500;
+    font-size: clamp(36px, 4.4vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin: 0;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .section-title em {
+    font-style: normal;
+    color: var(--forest);
+  }
+
+  /* ---------- problem statement ---------- */
+  .stance {
+    background: var(--forest-deep);
+    color: var(--paper);
+    border-bottom: 1px solid var(--forest-deep);
+  }
+  .stance .section-inner { padding: 100px 40px; }
+  .stance .mono { color: rgba(243,239,230,.6); }
+  .stance-body {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .stance-text p {
+    font-size: clamp(22px, 2vw, 28px);
+    line-height: 1.4;
+    margin: 0 0 28px;
+    max-width: 30ch;
+    color: var(--paper);
+    text-wrap: pretty;
+  }
+  .stance-text p:last-child { margin-bottom: 0; }
+  .stance-text .quiet {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(243,239,230,.7);
+    max-width: 58ch;
+    margin-top: 32px;
+  }
+
+  /* ---------- training pillars ---------- */
+  .pillars {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 64px;
+  }
+  .pillars-list {
+    display: flex;
+    flex-direction: column;
+  }
+  .pillar {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 32px;
+    padding: 36px 0;
+    border-top: 1px solid var(--rule-soft);
+    align-items: start;
+  }
+  .pillar:first-child { border-top: 1px solid var(--rule); }
+  .pillar:last-child { border-bottom: 1px solid var(--rule); }
+  .pillar-num {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    color: var(--forest);
+    padding-top: 4px;
+    letter-spacing: 0.05em;
+  }
+  .pillar-body h3 {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.2;
+    margin: 0 0 12px;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .pillar-body p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1.55;
+    max-width: 60ch;
+    text-wrap: pretty;
+  }
+
+  /* ---------- candid sail ---------- */
+  .sail {
+    background: var(--paper-warm);
+  }
+  .sail-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr 360px;
+    gap: 64px;
+    align-items: start;
+  }
+  .sail-body h2 {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 500;
+    font-size: clamp(36px, 4.4vw, 52px);
+    line-height: 1.05;
+    margin: 0 0 28px;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+  }
+  .sail-body p {
+    font-size: 18px;
+    line-height: 1.55;
+    margin: 0 0 20px;
+    max-width: 56ch;
+    color: var(--ink);
+  }
+  .sail-body .quiet {
+    color: var(--ink-muted);
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 56ch;
+  }
+  .sail-link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-top: 16px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--forest);
+    border-bottom: 1px solid var(--forest);
+    padding-bottom: 3px;
+    transition: color .2s ease, border-color .2s ease;
+  }
+  .sail-link:hover { color: var(--ink); border-color: var(--ink); }
+  .sail-link .arrow { transition: transform .2s ease; }
+  .sail-link:hover .arrow { transform: translateX(4px); }
+
+  .sail-card {
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .sail-card .mono { color: var(--ink-muted); }
+  .sail-card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 12px 0;
+    border-top: 1px dashed var(--rule-soft);
+    font-size: 14px;
+  }
+  .sail-card-row:first-of-type { border-top: 1px solid var(--rule); padding-top: 16px; }
+  .sail-card-row span:first-child { color: var(--ink-muted); font-family: "IBM Plex Mono", monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .sail-card-row span:last-child { color: var(--ink); }
+
+  /* ---------- contact ---------- */
+  .contact .section-inner { padding: 100px 40px; }
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .contact-body h2 {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 500;
+    font-size: clamp(36px, 4.4vw, 52px);
+    line-height: 1.05;
+    margin: 0 0 28px;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+  }
+  .contact-email {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 500;
+    font-size: clamp(28px, 3vw, 40px);
+    color: var(--forest);
+    display: inline-block;
+    margin: 8px 0 32px;
+    border-bottom: 1px solid var(--forest);
+    padding-bottom: 4px;
+    transition: color .2s ease, border-color .2s ease;
+  }
+  .contact-email:hover { color: var(--ink); border-color: var(--ink); }
+  .contact-note {
+    color: var(--ink-muted);
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 56ch;
+    margin: 0;
+    padding-left: 16px;
+    border-left: 2px solid var(--rule-soft);
+  }
+
+  /* ---------- footer ---------- */
+  footer {
+    background: var(--paper);
+  }
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    color: var(--ink-muted);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .footer-inner .wordmark { color: var(--ink); font-size: 12px; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 960px) {
+    .topbar-inner { padding: 16px 24px; }
+    .navlinks { gap: 18px; }
+    .navlinks a { font-size: 11px; }
+
+    .hero-inner {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .hero-image { order: -1; aspect-ratio: 4 / 3; }
+    .hero-text { border-right: none; border-bottom: 1px solid var(--rule); padding: 56px 0 64px; }
+
+    .section-inner, .stance .section-inner, .contact .section-inner { padding: 80px 24px; }
+    .section-head, .stance-body, .pillars, .sail-layout, .contact-layout {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .section-head { margin-bottom: 48px; }
+    .pillar { grid-template-columns: 48px 1fr; gap: 20px; padding: 28px 0; }
+    .sail-card { margin-top: 12px; }
+
+    .hero-meta-row { grid-template-columns: 110px 1fr; gap: 16px; }
+  }
+
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    .topbar-inner { padding: 14px 20px; }
+    .wordmark { font-size: 12px; letter-spacing: 0.18em; }
+    .navlinks a .num { display: none; }
+    .hero-text { padding: 48px 0 56px; }
+    .section-inner, .stance .section-inner, .contact .section-inner { padding: 64px 20px; }
+    .footer-inner { padding: 28px 20px; flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="#" class="wordmark">BEARZENKER</a>
+    <nav class="navlinks" aria-label="Primary">
+      <a href="#training"><span class="num">01</span>Training</a>
+      <a href="#candidsail"><span class="num">02</span>Candid SAIL</a>
+      <a href="#contact"><span class="num">03</span>Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" data-screen-label="01 Hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow mono"></div>
+      <h1 class="brand">Bearzenker LLC</h1>
+      <div class="brand-sub">Federal AI Training, Systems, &amp; Decision Support</div>
+      <p class="hero-lede">
+        AI training and systems for the federal workforce — designed for the processes your network <strong>actually allows</strong>, taught by someone who has done the work.
+      </p>
+      <div class="hero-meta">
+        <div class="hero-meta-row"><span class="mono">Served</span><span>Washington, DC &middot; Baltimore, MD &middot; Fort Meade</span></div>
+        <div class="hero-meta-row"><span class="mono">Focus</span><span>AI Literacy &middot; Agentic Workflows &middot; Human-in-the-Loop</span></div>
+        <div class="hero-meta-row"><span class="mono">Product</span><span>Candid SAIL — multi-model decision support</span></div>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="images/bearzenker-bear.png" alt="A brown bear in a Viking helmet seated calmly in a pine forest" />
+      <div class="hero-caption">Bearzenker · 2026</div>
+    </div>
+  </div>
+</section>
+
+<section class="stance" id="stance" data-screen-label="02 Stance">
+  <div class="section-inner">
+    <div class="stance-body">
+      <div class="mono">01 — Stance</div>
+      <div class="stance-text">
+        <p>
+          There is no federal standard for AI literacy. The workforce is figuring it out alone.
+        </p>
+        <p class="quiet">
+          Some offices import corporate training from Google, Microsoft, or Amazon — designed for technologies that haven't cleared your network. Others watch shadow AI fill the gap, one personal subscription at a time. Neither is a strategy. Workers deserve vetted knowledge transfer from someone who understands both the environment and the mission.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="training" data-screen-label="03 Training">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="mono">02 — AI Training</div>
+      <h2 class="section-title">Five things the federal workforce needs to know.</h2>
+    </div>
+    <div class="pillars">
+      <div></div>
+      <div class="pillars-list">
+
+        <article class="pillar">
+          <div class="pillar-num">01</div>
+          <div class="pillar-body">
+            <h3>The theory of agentic AI</h3>
+            <p>What an agent is, what it isn't, and why the distinction matters before you let one touch a workflow. Where autonomy lives, where it shouldn't, and how to recognize a tool that's pretending to be one.</p>
+          </div>
+        </article>
+
+        <article class="pillar">
+          <div class="pillar-num">02</div>
+          <div class="pillar-body">
+            <h3>Deterministic prompting</h3>
+            <p>Writing instructions that produce the same result twice. The difference between asking a model a question and giving it a procedure. How to test, version, and hand off prompts the way you'd hand off code.</p>
+          </div>
+        </article>
+
+        <article class="pillar">
+          <div class="pillar-num">03</div>
+          <div class="pillar-body">
+            <h3>The limits of AI</h3>
+            <p>Where models confabulate, where they fail silently, and what is and isn't safe to delegate. A clear-eyed map of the failure modes — so your team knows when to trust output and when to throw it away.</p>
+          </div>
+        </article>
+
+        <article class="pillar">
+          <div class="pillar-num">04</div>
+          <div class="pillar-body">
+            <h3>Human-in-the-loop workflows</h3>
+            <p>Designing processes that keep accountability with people while taking the speed gains models offer. Checkpoints, reviewer roles, and the paperwork that proves your humans were actually in the loop.</p>
+          </div>
+        </article>
+
+        <article class="pillar">
+          <div class="pillar-num">05</div>
+          <div class="pillar-body">
+            <h3>Coding agents as project managers</h3>
+            <p>Using coding agents to coordinate, review, and document work — not to replace developers. A management posture, not a headcount strategy. The right framing for technical leads who have to answer for what the machine produced.</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sail" id="candidsail" data-screen-label="04 Candid SAIL">
+  <div class="section-inner">
+    <div class="sail-layout">
+      <div class="mono">03 — Product</div>
+      <div class="sail-body">
+        <h2>Candid Sail</h2>
+        <p>
+          Candid Sail is a decision support tool for stress-testing plans and ideas to identify blind spots and missed opportunities. The system orchestrates a moderated debate between multiple frontier models to highlight uncertainty and weakness.
+        </p>
+        <p>
+          It is built on Bearzenker's patent-pending CANDID technology. We build Candid Sail to allow us to move beyond what was previously posible.
+        </p>
+        <a class="sail-link" href="https://www.candidsail.com" target="_blank" rel="noopener">
+          candidsail.com
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+      <aside class="sail-card" aria-label="Candid SAIL summary">
+        <div class="mono">At a glance</div>
+        <div class="sail-card-row"><span>Category</span><span>Decision support</span></div>
+        <div class="sail-card-row"><span>Method</span><span>Multi-model panel</span></div>
+        <div class="sail-card-row"><span>Engine</span><span>CANDID — patent pending</span></div>
+        <div class="sail-card-row"><span>Status</span><span>Operational</span></div>
+        <div class="sail-card-row"><span>Audience</span><span>Strategy, policy, PMO</span></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact" data-screen-label="05 Contact">
+  <div class="section-inner">
+    <div class="contact-layout">
+      <div class="mono">04 — Contact</div>
+      <div class="contact-body">
+        <h2>Start a conversation.</h2>
+        <a class="contact-email" href="mailto:info@bearzenker.com">info@bearzenker.com</a>
+        <p class="contact-note">
+          Public email is not a secure form of communication and is subject to third-party collection. Please plan your message accordingly.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span class="wordmark">BEARZENKER</span>
+    <span>© 2026 Bearzenker LLC · Maryland</span>
+    <span>v3 · 2026.05</span>
+  </div>
+</footer>
+
+</body>
+</html>
