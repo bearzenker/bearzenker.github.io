@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRACON-1 ATC Radar Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Top Dashboard Header -->
+    <header>
+        <div class="terminal-title">
+            <h1>TRACON-1 RADAR</h1>
+        </div>
+        <div class="dashboard-stats">
+            <div class="stat-item">
+                <span class="stat-label">Sector Score</span>
+                <span id="scoreVal" class="stat-value">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Level</span>
+                <span id="levelVal" class="stat-value">1</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Turns Elapsed</span>
+                <span id="turnsVal" class="stat-value">0 / 60</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Timer</span>
+                <span id="timerVal" class="stat-value">5.0s</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Active / Total</span>
+                <span id="activePlanesVal" class="stat-value">0 / 6</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Wind</span>
+                <span id="windVal" class="stat-value">EAST</span>
+            </div>
+        </div>
+        <div class="game-controls">
+            <label class="audio-mute-toggle">
+                <input type="checkbox" id="muteToggle"> MUTE AUDIO
+            </label>
+            <button class="btn-control" id="pauseBtn">PAUSE</button>
+            <button class="btn-control active" id="speed1xBtn">1x SPEED</button>
+            <button class="btn-control" id="speed2xBtn">2x SPEED</button>
+        </div>
+    </header>
+
+    <!-- Main Layout Panels -->
+    <main class="main-layout">
+        <!-- Left Panel: Flight Strips -->
+        <section class="panel flight-panel">
+            <div class="panel-header">
+                <span>Flight Strip Bay</span>
+                <span id="flightCount">0 FLTS</span>
+            </div>
+            <div class="scrollable">
+                <div class="flight-strips-list" id="flightStripsList">
+                    <!-- Dynamic flight strips will go here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Center Panel: Radar Scope -->
+        <section class="panel radar-panel">
+            <div class="radar-canvas-container">
+                <!-- Chime indicator in the upper left -->
+                <div id="chimeFlash" title="Chime Indicator"></div>
+                
+                <canvas id="radarCanvas" width="800" height="800"></canvas>
+
+                <!-- Game Over Overlay Screen -->
+                <div id="gameOverScreen" class="overlay-screen game-over hidden">
+                    <h2>COLLISION DETECTED</h2>
+                    <div class="overlay-details">
+                        <p id="gameOverMsg">A mid-air collision has occurred in your sector.</p>
+                        <p style="margin-top: 15px;">Final Score: <span id="finalScoreVal" style="font-weight: bold; color: white;">0</span></p>
+                    </div>
+                    <button class="btn-primary" id="restartBtn">Reboot Terminal</button>
+                </div>
+
+                <!-- Next Level/Victory Overlay Screen -->
+                <div id="victoryScreen" class="overlay-screen victory hidden">
+                    <h2>SECTOR CLEAR</h2>
+                    <div class="overlay-details">
+                        <p>Landed Safely: <span id="victoryLandedVal" style="font-weight: bold; color: white;">0</span></p>
+                        <p>Near Misses: <span id="victoryNearMissVal" style="font-weight: bold; color: white;">0</span></p>
+                        <p>Exited (lost): <span id="victoryLostVal" style="font-weight: bold; color: white;">0</span></p>
+                        <p style="margin-top: 15px;">Final Score: <span id="victoryScoreVal" style="font-weight: bold; color: white;">0</span></p>
+                    </div>
+                    <button class="btn-primary" id="nextLevelBtn">Start Level 2</button>
+                </div>
+
+                <!-- Level Start / Intro Screen -->
+                <div id="startScreen" class="overlay-screen">
+                    <h2>TRACON TERMINAL READY</h2>
+                    <div class="overlay-details">
+                        <p><strong>Sector:</strong> Sea Level Airport (AGL)</p>
+                        <p><strong>Goal:</strong> Safely land incoming aircraft using the radar and radio commands.</p>
+                        <p style="margin-top: 10px; font-size: 13px; color: #1e8f3e;">Click on a plane to select it, then click on the radar to set a destination. Or type commands below.</p>
+                    </div>
+                    <button class="btn-primary" id="startBtn">Initialize Radar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Panel: Console Logs & Input -->
+        <section class="panel console-panel">
+            <div class="panel-header">
+                <span>Radio Logs (Console)</span>
+                <span>ONLINE</span>
+            </div>
+            
+            <!-- Chat Log Messages -->
+            <div class="scrollable" id="consoleLogContainer">
+                <div class="console-log" id="consoleLog">
+                    <!-- Dynamic console radio logs will go here -->
+                </div>
+            </div>
+
+            <!-- Command Line Legend -->
+            <div class="cmd-legend">
+                Commands: <span>[FLT] L[HDG]</span> (Left), <span>R[HDG]</span> (Right), <span>H[HDG]</span> (Direct), <span>C[ALT]</span> (Climb), <span>D[ALT]</span> (Descend)
+            </div>
+
+            <!-- Chat command input prompt -->
+            <div class="console-input-area">
+                <form id="consoleForm" autocomplete="off" onsubmit="return false;">
+                    <div class="input-prompt-wrapper">
+                        <span class="prompt-prefix">ATC &gt;</span>
+                        <input type="text" id="cmdInput" placeholder="Enter flight number and command (e.g. AA32 L270)" autofocus>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Load scripts -->
+    <script src="audio.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

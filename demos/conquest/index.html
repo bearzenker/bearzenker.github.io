@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Antigravity Conquest - A beautiful local browser strategy game inspired by Risk. Features glowing SVG maps, detailed AI personalities, and an interactive dice-rolling battle engine.">
+  <title>Antigravity Conquest | Strategy War Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header>
+    <div class="logo-container">
+      <h1>ANTIGRAVITY CONQUEST</h1>
+      <span class="badge-version">v2.0-LOCAL</span>
+    </div>
+    
+    <div class="status-header">
+      <button class="btn-secondary" id="btn-show-rules">VIEW RULES</button>
+      <div class="turn-pill">
+        <span class="indicator-dot" id="turn-dot"></span>
+        <span id="turn-indicator">LOADING CONQUEST...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Game Panels Container -->
+  <main class="main-container">
+    
+    <!-- Central Map Area -->
+    <section class="map-area" id="map-container">
+      <!-- SVG map dynamically rendered here by ui.js -->
+      <div style="opacity: 0.3; font-family: var(--font-heading); font-size: 1.5rem;">RENDERING WAR MAP...</div>
+    </section>
+
+    <!-- Sidebar Dashboard Controls -->
+    <aside class="sidebar">
+      
+      <!-- Player Roster & Statistics -->
+      <div class="sidebar-section">
+        <h2>PLAYER ROSTER</h2>
+        <div class="player-list" id="player-list">
+          <!-- Populated by ui.js -->
+        </div>
+      </div>
+
+      <!-- Action Panel Controls -->
+      <div class="sidebar-section">
+        <h2 id="phase-header">SETUP PHASE</h2>
+        <div class="action-controls">
+          <div class="instruction-box" id="instruction-text">
+            Game is initializing...
+          </div>
+          <button class="btn-primary" id="btn-done" style="display: none;">END TURN</button>
+        </div>
+      </div>
+
+      <!-- Combat Feed Log -->
+      <div class="sidebar-section game-logs-container">
+        <h2>COMBAT COMMAND FEED</h2>
+        <div class="game-logs" id="game-logs">
+          <!-- Logs are dynamically written here -->
+        </div>
+      </div>
+
+    </aside>
+  </main>
+
+  <!-- 1. Fullscreen Setup Splash Screen Overlay -->
+  <div class="setup-overlay" id="setup-overlay">
+    <div class="setup-card">
+      <h2>ANTIGRAVITY CONQUEST</h2>
+      <p>
+        Welcome, Commander. You have been assigned to test the Google Antigravity 2 learning module. 
+        In this simulation, you will compete against three distinct AI personalities: 
+        <strong>Cautious</strong>, <strong>Wreckless</strong>, and <strong>Strategic</strong>. 
+        Your mission is simple: deploy your armies, roll the dice, challenge your enemies, and conquer the world.
+      </p>
+      <button class="btn-primary" id="btn-start-game" style="margin: 0 auto; width: fit-content; padding: 1.1rem 2.5rem; font-size: 1.1rem;">
+        START CONQUEST
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. Interactive Dice Battle Modal (Top Layer Dialog) -->
+  <dialog id="battle-modal">
+    <div class="modal-header">
+      <h3>CHALLENGE SEQUENCE</h3>
+    </div>
+    <div class="modal-body">
+      <div class="battle-arena">
+        
+        <!-- Attacker Card -->
+        <div class="battle-faction attacker">
+          <span class="faction-role">Attacker</span>
+          <span class="faction-name" id="attacker-name">Frostguard</span>
+          <span class="faction-owner" id="attacker-owner-name">Human</span>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin: 0.5rem 0 0.2rem;">Armies Remaining</div>
+          <span class="faction-armies" id="attacker-armies">3</span>
+          
+          <div class="die-container">
+            <div class="die" id="attacker-die">?</div>
+          </div>
+        </div>
+
+        <div class="battle-vs">VS</div>
+
+        <!-- Defender Card -->
+        <div class="battle-faction defender">
+          <span class="faction-role">Defender</span>
+          <span class="faction-name" id="defender-name">Obsidian</span>
+          <span class="faction-owner" id="defender-owner-name">Cautious AI</span>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin: 0.5rem 0 0.2rem;">Armies Remaining</div>
+          <span class="faction-armies" id="defender-armies">1</span>
+          
+          <div class="die-container">
+            <div class="die" id="defender-die">?</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="battle-result-text" id="battle-result">
+        Preparing dice...
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" id="btn-battle-retreat">DONE / RETREAT</button>
+      <button class="btn-secondary" id="btn-battle-auto">FAST BATTLE</button>
+      <button class="btn-primary" id="btn-battle-roll">ROLL DIE</button>
+    </div>
+  </dialog>
+
+  <!-- 3. Rules Modal (Top Layer Dialog) -->
+  <dialog id="rules-modal">
+    <div class="modal-header">
+      <h3>CONQUEST OPERATIONAL MANUAL</h3>
+    </div>
+    <div class="modal-body" style="font-size: 0.85rem; line-height: 1.6; display: flex; flex-direction: column; gap: 1rem; color: var(--text-secondary);">
+      <p>
+        <strong style="color: var(--text-primary);">1. GEOGRAPHY & CONTINENTS</strong><br>
+        The world map features 6 distinct continents: <em>Borealis, Aetheria, Elvoria, Nautilus, Zul'Dakar, and Vulkan</em>, comprising 30 total territories. Dotted lines indicate intra-continental pathways, while dashed lines show inter-continental sea lanes.
+      </p>
+      
+      <p>
+        <strong style="color: var(--text-primary);">2. GAME SETUP PHASE</strong><br>
+        Territories are randomly claimed at startup. Each player receives 10 extra armies. AIs deploy their 10 extra armies first, and you deploy yours last. Click your territories to deploy them one by one.
+      </p>
+
+      <p>
+        <strong style="color: var(--text-primary);">3. REINFORCEMENTS</strong><br>
+        At the start of every turn, a player receives reinforcement armies. 
+        Formula: <code style="font-family: var(--font-mono); color: var(--p1-color);">Math.floor(total_armies_owned / 5) + 3</code>. Plus bonuses for complete continent control!
+      </p>
+
+      <p>
+        <strong style="color: var(--text-primary);">4. COMBAT & CHALLENGES</strong><br>
+        Select your territory with 2+ armies, then select an adjacent enemy territory to launch a challenge. Both roll a 6-sided die. High number wins, lower roll loses an army. Defender wins ties. If defender armies drop to 0, you conquer it and move all but 1 army to defend the new post.
+      </p>
+
+      <p>
+        <strong style="color: var(--text-primary);">5. AI PERSONALITIES</strong><br>
+        - <span style="color: var(--p2-color); font-weight:600;">Cautious AI</span>: Distributes armies defensively. Only attacks when holding massive numerical advantage (3:1 or higher). Stops attacking early.<br>
+        - <span style="color: var(--p3-color); font-weight:600;">Wreckless AI</span>: Hyper-aggressive. Focuses all forces in one strong stack and attacks relentlessly until down to 1 army.<br>
+        - <span style="color: var(--p4-color); font-weight:600;">Strategic AI</span>: Concentrates on capturing continents and making smart tactical attacks (having positive ratio).
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" id="btn-rules-close">CLOSE MANUAL</button>
+    </div>
+  </dialog>
+
+  <!-- 4. Army Movement Modal (Top Layer Dialog) -->
+  <dialog id="movement-modal">
+    <div class="modal-header">
+      <h3>ARMY MOVEMENT</h3>
+    </div>
+    <div class="modal-body">
+      <div class="movement-setup">
+        <!-- Source Faction Card -->
+        <div class="movement-faction source">
+          <span class="faction-role" style="color: var(--p1-color);">Source</span>
+          <span class="faction-name" id="move-source-name">-</span>
+          <span class="faction-owner" id="move-source-owner-name">-</span>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin: 0.5rem 0 0.2rem;">Armies Remaining</div>
+          <span class="faction-armies" id="move-source-armies">-</span>
+        </div>
+
+        <div class="movement-arrow">➔</div>
+
+        <!-- Destination Faction Card -->
+        <div class="movement-faction destination">
+          <span class="faction-role" style="color: var(--p1-color);">Destination</span>
+          <span class="faction-name" id="move-dest-name">-</span>
+          <span class="faction-owner" id="move-dest-owner-name">-</span>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin: 0.5rem 0 0.2rem;">Armies Current</div>
+          <span class="faction-armies" id="move-dest-armies">-</span>
+        </div>
+      </div>
+
+      <div class="movement-slider-container">
+        <label for="move-amount-slider" style="font-weight: 600; color: var(--text-primary);">Armies to Transfer:</label>
+        <div class="slider-controls">
+          <button class="btn-secondary btn-small" id="btn-move-minus" style="font-weight: bold;">-</button>
+          <input type="range" id="move-amount-slider" min="1" max="1" value="1">
+          <span class="move-amount-value" id="move-amount-val">1</span>
+          <button class="btn-secondary btn-small" id="btn-move-plus" style="font-weight: bold;">+</button>
+        </div>
+        <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; text-align: center;">
+          Must leave at least 1 army in source territory
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" id="btn-move-cancel">CANCEL</button>
+      <button class="btn-primary" id="btn-move-confirm">CONFIRM MOVEMENT</button>
+    </div>
+  </dialog>
+
+  <!-- Load Scripts sequentially (ensuring local compatibility via globals) -->
+  <script src="map.js"></script>
+  <script src="game.js"></script>
+  <script src="ui.js"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      UI.init();
+    });
+  </script>
+</body>
+</html>

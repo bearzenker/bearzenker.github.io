@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ATC Simulator</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='48' font-size='48'%3E%E2%9C%88%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="panel flight-panel">
+        <h1>ATC Simulator</h1>
+        <div class="scoreboard">
+          <span>Turn <strong id="turnCount">0</strong>/60</span>
+          <span>Score <strong id="score">0</strong></span>
+        </div>
+        <h2>Flight List</h2>
+        <ul id="flightList" class="flight-list"></ul>
+      </aside>
+
+      <section class="radar-wrap">
+        <canvas id="radar" width="800" height="800" aria-label="Radar screen"></canvas>
+        <div id="flash" class="flash" aria-hidden="true">✦</div>
+        <div id="gameState" class="game-state hidden"></div>
+      </section>
+
+      <aside class="panel chat-panel">
+        <h2>Radio</h2>
+        <div id="chatLog" class="chat-log" aria-live="polite"></div>
+        <form id="commandForm" class="command-form">
+          <input id="commandInput" autocomplete="off" placeholder="AB123 H270 or C5" />
+          <button type="submit">Send</button>
+        </form>
+      </aside>
+    </main>
+    <script src="./src/game.js"></script>
+    <script src="./src/app.js"></script>
+  </body>
+</html>

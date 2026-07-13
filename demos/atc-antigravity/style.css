@@ -1,0 +1,498 @@
+/* CSS resets and custom variables for the retro ATC terminal */
+:root {
+    --bg-dark: #0a0c0b;
+    --panel-bg: #111413;
+    --crt-green: #33ff66;
+    --crt-green-glow: rgba(51, 255, 102, 0.4);
+    --crt-green-dim: #1e8f3e;
+    --alert-red: #ff3333;
+    --alert-red-glow: rgba(255, 51, 51, 0.5);
+    --warn-amber: #ffaa00;
+    --warn-amber-glow: rgba(255, 170, 0, 0.5);
+    --select-blue: #00d2ff;
+    --select-blue-glow: rgba(0, 210, 255, 0.5);
+    --font-mono: 'Fira Code', 'Courier New', Courier, monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--crt-green);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* CRT Screen Scanline Overlay */
+body::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 9999;
+    background-size: 100% 4px, 6px 100%;
+    pointer-events: none;
+    opacity: 0.15;
+}
+
+/* Top Dashboard Bar */
+header {
+    background-color: var(--panel-bg);
+    border-bottom: 2px solid var(--crt-green-dim);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    z-index: 10;
+}
+
+.terminal-title h1 {
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px var(--crt-green);
+    animation: blink-title 5s infinite;
+}
+
+.dashboard-stats {
+    display: flex;
+    gap: 30px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--crt-green-dim);
+    margin-bottom: 3px;
+}
+
+.stat-value {
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 0 4px var(--crt-green);
+}
+
+.stat-value.alert {
+    color: var(--alert-red);
+    text-shadow: 0 0 4px var(--alert-red);
+}
+
+.stat-value.warning {
+    color: var(--warn-amber);
+    text-shadow: 0 0 4px var(--warn-amber);
+}
+
+/* Main Layout */
+.main-layout {
+    display: flex;
+    flex: 1;
+    height: calc(100vh - 62px);
+    position: relative;
+}
+
+/* Panel Design */
+.panel {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--crt-green-dim);
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+    border-radius: 4px;
+}
+
+/* Left panel: Flight List */
+.flight-panel {
+    width: 320px;
+    flex-shrink: 0;
+}
+
+/* Center panel: Radar Screen Container */
+.radar-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: #030604;
+}
+
+/* Right panel: Chat / Console */
+.console-panel {
+    width: 380px;
+    flex-shrink: 0;
+}
+
+/* Panel Header */
+.panel-header {
+    border-bottom: 1px solid var(--crt-green-dim);
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background-color: rgba(51, 255, 102, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Scrollbars */
+.scrollable {
+    overflow-y: auto;
+    flex: 1;
+    padding: 10px;
+}
+
+.scrollable::-webkit-scrollbar {
+    width: 8px;
+}
+.scrollable::-webkit-scrollbar-track {
+    background: #090c0b;
+    border-left: 1px solid rgba(51, 255, 102, 0.1);
+}
+.scrollable::-webkit-scrollbar-thumb {
+    background: var(--crt-green-dim);
+    border-radius: 4px;
+}
+.scrollable::-webkit-scrollbar-thumb:hover {
+    background: var(--crt-green);
+}
+
+/* Flight strips list styles */
+.flight-strips-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Individual Flight Strip (Paper/Terminal card) */
+.flight-strip {
+    border: 1px solid var(--crt-green-dim);
+    background-color: rgba(0, 15, 5, 0.6);
+    border-radius: 3px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 4px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.flight-strip:hover {
+    border-color: var(--crt-green);
+    box-shadow: 0 0 5px var(--crt-green-glow);
+}
+
+.flight-strip.selected {
+    border-color: var(--select-blue);
+    background-color: rgba(0, 30, 40, 0.7);
+    box-shadow: 0 0 8px var(--select-blue-glow);
+}
+
+.flight-strip.approach-state {
+    border-color: var(--warn-amber);
+    background-color: rgba(40, 30, 0, 0.6);
+}
+
+.strip-id {
+    font-weight: bold;
+    font-size: 16px;
+    grid-column: 1;
+    grid-row: 1;
+    color: var(--crt-green);
+    text-shadow: 0 0 3px var(--crt-green-glow);
+}
+.flight-strip.selected .strip-id {
+    color: var(--select-blue);
+    text-shadow: 0 0 3px var(--select-blue-glow);
+}
+.flight-strip.approach-state .strip-id {
+    color: var(--warn-amber);
+    text-shadow: 0 0 3px var(--warn-amber-glow);
+}
+
+.strip-type {
+    font-size: 10px;
+    color: var(--crt-green-dim);
+    grid-column: 1;
+    grid-row: 2;
+    text-transform: uppercase;
+}
+
+.strip-param {
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.strip-label {
+    font-size: 8px;
+    color: var(--crt-green-dim);
+    text-transform: uppercase;
+}
+.strip-val {
+    font-weight: bold;
+}
+
+/* Radar screen and elements */
+.radar-canvas-container {
+    width: 800px;
+    height: 800px;
+    position: relative;
+    border: 2px solid var(--crt-green-dim);
+    box-shadow: 0 0 30px rgba(0,0,0,0.9), inset 0 0 50px rgba(5, 20, 10, 0.9);
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #030a05;
+}
+
+#radarCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Flash indicator on radar */
+#chimeFlash {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid var(--crt-green-dim);
+    background-color: rgba(0,0,0,0.5);
+    z-index: 5;
+    transition: background-color 0.1s ease, box-shadow 0.1s ease;
+}
+
+#chimeFlash.flash {
+    background-color: var(--crt-green);
+    box-shadow: 0 0 15px var(--crt-green);
+}
+
+/* Console & Chat Output */
+.console-log {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.console-msg {
+    line-height: 1.4;
+    word-break: break-word;
+}
+.console-msg .time {
+    color: var(--crt-green-dim);
+    margin-right: 8px;
+}
+.console-msg .sender {
+    font-weight: bold;
+    margin-right: 6px;
+}
+.console-msg.sender-pilot .sender {
+    color: var(--crt-green);
+}
+.console-msg.sender-tower .sender {
+    color: var(--select-blue);
+}
+.console-msg.sender-system {
+    color: var(--warn-amber);
+    font-style: italic;
+}
+.console-msg.sender-critical {
+    color: var(--alert-red);
+    font-weight: bold;
+    animation: text-pulse 1s infinite alternate;
+}
+
+/* Command Prompt Input Area */
+.console-input-area {
+    border-top: 1px solid var(--crt-green-dim);
+    padding: 10px;
+    background-color: #0c0f0d;
+}
+
+.input-prompt-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--crt-green-dim);
+    border-radius: 3px;
+    padding: 6px 10px;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.prompt-prefix {
+    color: var(--crt-green);
+    font-weight: bold;
+    margin-right: 8px;
+    font-size: 14px;
+    text-shadow: 0 0 3px var(--crt-green-glow);
+}
+
+#cmdInput {
+    background: transparent;
+    border: none;
+    color: var(--crt-green);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    flex: 1;
+    outline: none;
+    text-shadow: 0 0 2px var(--crt-green-glow);
+}
+
+/* Overlay screens (Game Over, Victory, Game Start) */
+.overlay-screen {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(5, 8, 6, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    border-radius: 50%;
+    text-align: center;
+    padding: 40px;
+}
+
+.overlay-screen.hidden {
+    display: none !important;
+}
+
+.overlay-screen h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    letter-spacing: 3px;
+}
+
+.overlay-screen.game-over h2 {
+    color: var(--alert-red);
+    text-shadow: 0 0 10px var(--alert-red-glow);
+}
+
+.overlay-screen.victory h2 {
+    color: var(--crt-green);
+    text-shadow: 0 0 10px var(--crt-green-glow);
+}
+
+.overlay-details {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    max-width: 500px;
+}
+
+.btn-primary {
+    background-color: transparent;
+    border: 2px solid var(--crt-green);
+    color: var(--crt-green);
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 30px;
+    cursor: pointer;
+    border-radius: 4px;
+    text-shadow: 0 0 4px var(--crt-green-glow);
+    box-shadow: 0 0 5px rgba(51, 255, 102, 0.2);
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+}
+.btn-primary:hover {
+    background-color: var(--crt-green);
+    color: var(--bg-dark);
+    box-shadow: 0 0 15px var(--crt-green);
+    text-shadow: none;
+}
+
+.overlay-screen.game-over .btn-primary {
+    border-color: var(--alert-red);
+    color: var(--alert-red);
+    text-shadow: 0 0 4px var(--alert-red-glow);
+    box-shadow: 0 0 5px rgba(255, 51, 51, 0.2);
+}
+.overlay-screen.game-over .btn-primary:hover {
+    background-color: var(--alert-red);
+    color: white;
+    box-shadow: 0 0 15px var(--alert-red);
+    text-shadow: none;
+}
+
+/* Audio control checkbox */
+.audio-mute-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 11px;
+}
+.audio-mute-toggle input {
+    cursor: pointer;
+    accent-color: var(--crt-green);
+}
+
+/* Header Game speed / Controls */
+.game-controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.btn-control {
+    background: transparent;
+    border: 1px solid var(--crt-green-dim);
+    color: var(--crt-green-dim);
+    font-family: var(--font-mono);
+    padding: 5px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.15s ease;
+}
+.btn-control:hover, .btn-control.active {
+    color: var(--crt-green);
+    border-color: var(--crt-green);
+    box-shadow: 0 0 4px var(--crt-green-glow);
+}
+
+/* Custom indicator animations */
+@keyframes blink-title {
+    0%, 94%, 96%, 100% { opacity: 1; }
+    95%, 97% { opacity: 0.85; }
+}
+
+@keyframes text-pulse {
+    from { text-shadow: 0 0 2px var(--alert-red-glow); }
+    to { text-shadow: 0 0 8px var(--alert-red); }
+}
+
+/* Legend/Hints info bar */
+.cmd-legend {
+    padding: 8px;
+    font-size: 10px;
+    color: var(--crt-green-dim);
+    border-top: 1px solid rgba(51, 255, 102, 0.1);
+    background-color: rgba(0,0,0,0.2);
+}
+.cmd-legend span {
+    color: var(--crt-green);
+}
