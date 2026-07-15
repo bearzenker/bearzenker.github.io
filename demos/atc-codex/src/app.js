@@ -85,7 +85,10 @@ function playChime() {
 
 canvas.addEventListener('click', (event) => {
   const rect = canvas.getBoundingClientRect();
-  const point = { x: event.clientX - rect.left, y: event.clientY - rect.top };
+  const point = {
+    x: (event.clientX - rect.left) * canvas.width / rect.width,
+    y: (event.clientY - rect.top) * canvas.height / rect.height,
+  };
   const hit = game.aircraft.find((plane) => plane.status === 'in sector' && distanceBlocks(plane, point, CONFIG) <= 2);
   if (hit) { selected = hit; }
   else if (selected) { selected.destination = point; selected.requestedHeading = false; game.messages.push({ turn: game.turn, text: `${selected.id} to position ${Math.round(point.x / CONFIG.blockSize)},${Math.round(point.y / CONFIG.blockSize)}` }); }

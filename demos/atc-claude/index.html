@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ATC Simulator</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="app">
+        <header id="hud">
+            <span id="level">Level: 1</span>
+            <span id="turn">Turn: 0 / 75</span>
+            <span id="score">Score: 0</span>
+            <span id="aircraft-count">Aircraft: 0 / 6</span>
+            <span id="status">Ready</span>
+            <button id="start-btn">Start Level</button>
+        </header>
+        <main>
+            <section id="flight-list-panel">
+                <h2>Flight List</h2>
+                <table id="flight-list">
+                    <thead>
+                        <tr><th>Flight</th><th>Alt</th><th>Hdg</th><th>Spd</th><th>Status</th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <section id="radar-panel">
+                <div id="chat-flash"></div>
+                <canvas id="radar" width="700" height="700"></canvas>
+            </section>
+
+            <section id="chat-panel">
+                <h2>Comms</h2>
+                <div id="chat-log"></div>
+                <form id="command-form">
+                    <input id="command-input" type="text" autocomplete="off"
+                        placeholder="e.g. AA123 L270  |  UA45 C15  |  DL9 H090" />
+                    <button type="submit">Send</button>
+                </form>
+                <div id="command-help">
+                    L&lt;hdg&gt; left turn · R&lt;hdg&gt; right turn · H&lt;hdg&gt; any turn ·
+                    C&lt;alt&gt; climb · D&lt;alt&gt; descend
+                </div>
+            </section>
+        </main>
+    </div>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

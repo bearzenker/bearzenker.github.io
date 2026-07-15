@@ -16,7 +16,7 @@ const state = {
     level: 1,
     score: 0,
     turns: 0,
-    maxTurns: 60,
+    maxTurns: 75,
     turnPause: 5, // default 5 seconds per turn
     timer: 5.0,
     aircraft: [], // list of active aircraft
@@ -39,7 +39,7 @@ const state = {
 const canvas = document.getElementById('radarCanvas');
 const ctx = canvas.getContext('2d');
 const BLOCK_SIZE = 10; // 1 block = 10 pixels
-const GRID_SIZE = 80;  // 80x80 blocks
+const GRID_SIZE = 70;  // 70x70 blocks
 
 // Wind directions for levels
 const WIND_LABELS = {
@@ -215,24 +215,25 @@ function spawnAircraft() {
         let x, y;
         
         if (edge === 0) { // Top
-            x = randRange(10, 70);
+            x = randRange(10, GRID_SIZE - 10);
             y = 0;
         } else if (edge === 1) { // Right
-            x = 80;
-            y = randRange(10, 70);
+            x = GRID_SIZE;
+            y = randRange(10, GRID_SIZE - 10);
         } else if (edge === 2) { // Bottom
-            x = randRange(10, 70);
-            y = 80;
+            x = randRange(10, GRID_SIZE - 10);
+            y = GRID_SIZE;
         } else { // Left
             x = 0;
-            y = randRange(10, 70);
+            y = randRange(10, GRID_SIZE - 10);
         }
 
         const altitude = randRange(5, 20); // 5,000 to 20,000 ft
         
-        // Direct heading towards the airport (40, 40)
-        const dx = 40 - x;
-        const dy = 40 - y;
+        // Direct heading towards the airport (center, center)
+        const center = GRID_SIZE / 2;
+        const dx = center - x;
+        const dy = center - y;
         let heading = Math.atan2(dx, -dy) * (180 / Math.PI);
         if (heading < 0) heading += 360;
         heading = Math.round(heading / 10) * 10 % 360; // round to nearest 10 degrees
@@ -372,14 +373,15 @@ function nextTurn() {
         let isLanding = false;
         
         // Target landing heading and approach bounds based on wind
+        const center = GRID_SIZE / 2;
         if (state.windDirection === 90) { // Wind is East, land West (270)
-            const isInsideApproach = p.x >= 41.5 && p.x <= 51.5 && p.y >= 37 && p.y <= 43;
+            const isInsideApproach = p.x >= (center + 1.5) && p.x <= (center + 11.5) && p.y >= (center - 3) && p.y <= (center + 3);
             const correctHeading = Math.abs(p.heading - 270) <= 30 || Math.abs(p.heading - 270) >= 330;
             if (isInsideApproach && correctHeading && p.altitude <= 5) {
                 isLanding = true;
             }
         } else { // Wind is West, land East (90)
-            const isInsideApproach = p.x >= 28.5 && p.x <= 38.5 && p.y >= 37 && p.y <= 43;
+            const isInsideApproach = p.x >= (center - 11.5) && p.x <= (center - 1.5) && p.y >= (center - 3) && p.y <= (center + 3);
             const correctHeading = Math.abs(p.heading - 90) <= 30;
             if (isInsideApproach && correctHeading && p.altitude <= 5) {
                 isLanding = true;
@@ -393,7 +395,7 @@ function nextTurn() {
         }
 
         // Check if flown off screen
-        if (p.x < 0 || p.x > 80 || p.y < 0 || p.y > 80) {
+        if (p.x < 0 || p.x > GRID_SIZE || p.y < 0 || p.y > GRID_SIZE) {
             lostPlanes.push(p);
             state.aircraft.splice(i, 1);
         }
@@ -548,12 +550,11 @@ function initLevel(lvl) {
         state.nearMissPairs.clear();
         
         if (lvl === 1) {
-            state.maxTurns = 60;
             state.maxAircraft = 6;
             state.windDirection = Math.random() < 0.5 ? 90 : 270; // Random East or West
         } else {
             // Level 2 config
-            state.maxTurns = 80;
+            state.maxTurns = Math.trunc(state.maxTurns * 1.3);
             state.maxAircraft = 12;
             state.windDirection = Math.random() < 0.5 ? 90 : 270;
         }
@@ -595,8 +596,10 @@ function updateStatsHTML() {
 function drawRadar() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    const centerPx = canvas.width / 2;
+
     // 1. Radar Screen Gradient Background
-    const radGrad = ctx.createRadialGradient(400, 400, 50, 400, 400, 400);
+    const radGrad = ctx.createRadialGradient(centerPx, centerPx, 50, centerPx, centerPx, centerPx);
     radGrad.addColorStop(0, '#040d05');
     radGrad.addColorStop(1, '#010502');
     ctx.fillStyle = radGrad;
@@ -606,11 +609,11 @@ function drawRadar() {
     ctx.strokeStyle = 'rgba(51, 255, 102, 0.15)';
     ctx.lineWidth = 1;
 
-    // 2. Concentric Range Rings (10, 20, 30, 40 blocks)
-    const ringRadii = [100, 200, 300, 400];
+    // 2. Concentric Range Rings (10, 20, 30, 35 blocks)
+    const ringRadii = [100, 200, 300, centerPx];
     ringRadii.forEach(r => {
         ctx.beginPath();
-        ctx.arc(400, 400, r, 0, 2 * Math.PI);
+        ctx.arc(centerPx, centerPx, r, 0, 2 * Math.PI);
         ctx.stroke();
     });
 
@@ -618,18 +621,18 @@ function drawRadar() {
     for (let angle = 0; angle < 360; angle += 30) {
         const rad = angle * (Math.PI / 180);
         ctx.beginPath();
-        ctx.moveTo(400, 400);
-        ctx.lineTo(400 + Math.sin(rad) * 400, 400 - Math.cos(rad) * 400);
+        ctx.moveTo(centerPx, centerPx);
+        ctx.lineTo(centerPx + Math.sin(rad) * centerPx, centerPx - Math.cos(rad) * centerPx);
         ctx.stroke();
     }
 
     // 4. Draw Airport Runway
-    // Runway centered at (40, 40), 3 blocks long (30px wide, from x=38.5 to 41.5)
+    // Runway centered at (center, center) (35, 35) which is (centerPx, centerPx)
     ctx.strokeStyle = '#33ff66';
     ctx.lineWidth = 4;
     ctx.beginPath();
-    ctx.moveTo(385, 400);
-    ctx.lineTo(415, 400);
+    ctx.moveTo(centerPx - 15, centerPx);
+    ctx.lineTo(centerPx + 15, centerPx);
     ctx.stroke();
 
     // Runway numbers
@@ -637,8 +640,8 @@ function drawRadar() {
     ctx.font = 'bold 9px monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('09', 375, 400);
-    ctx.fillText('27', 425, 400);
+    ctx.fillText('09', centerPx - 25, centerPx);
+    ctx.fillText('27', centerPx + 25, centerPx);
 
     // 5. Draw Wind Direction pointer
     // Wind Sock/Arrow near center airport
@@ -647,8 +650,8 @@ function drawRadar() {
     ctx.lineWidth = 1.5;
     
     // Draw Wind Icon Box at top right quadrant of center
-    const wx = 400;
-    const wy = 340;
+    const wx = centerPx;
+    const wy = centerPx - 60;
     ctx.font = '10px monospace';
     ctx.textAlign = 'center';
     
@@ -664,40 +667,48 @@ function drawRadar() {
     ctx.setLineDash([4, 4]); // dashed lines
     
     if (state.windDirection === 90) { // Wind is East, land West on Runway 27 (funnel extends East/Right)
-        // Funnel from touchdown (41.5, 40) (415, 400) to outer bounds (51.5, 37) (515, 370) and (51.5, 43) (515, 430)
+        const tdX = centerPx + 15;
+        const outX = centerPx + 115;
+        const outY1 = centerPx - 30;
+        const outY2 = centerPx + 30;
+        
         ctx.fillStyle = 'rgba(51, 255, 102, 0.03)';
         ctx.beginPath();
-        ctx.moveTo(415, 400);
-        ctx.lineTo(515, 370);
-        ctx.lineTo(515, 430);
+        ctx.moveTo(tdX, centerPx);
+        ctx.lineTo(outX, outY1);
+        ctx.lineTo(outX, outY2);
         ctx.closePath();
         ctx.fill();
         
         ctx.beginPath();
-        ctx.moveTo(415, 400);
-        ctx.lineTo(515, 370);
-        ctx.moveTo(415, 400);
-        ctx.lineTo(515, 430);
-        ctx.moveTo(515, 370);
-        ctx.lineTo(515, 430);
+        ctx.moveTo(tdX, centerPx);
+        ctx.lineTo(outX, outY1);
+        ctx.moveTo(tdX, centerPx);
+        ctx.lineTo(outX, outY2);
+        ctx.moveTo(outX, outY1);
+        ctx.lineTo(outX, outY2);
         ctx.stroke();
     } else { // Wind is West, land East on Runway 09 (funnel extends West/Left)
-        // Funnel from touchdown (38.5, 40) (385, 400) to outer bounds (28.5, 37) (285, 370) and (28.5, 43) (285, 430)
+        const tdX = centerPx - 15;
+        const outX = centerPx - 115;
+        const outY1 = centerPx - 30;
+        const outY2 = centerPx + 30;
+        
         ctx.fillStyle = 'rgba(51, 255, 102, 0.03)';
         ctx.beginPath();
-        ctx.moveTo(385, 400);
-        ctx.lineTo(285, 370);
-        ctx.lineTo(285, 430);
+        ctx.moveTo(tdX, centerPx);
+        ctx.lineTo(outX, outY1);
+        ctx.lineTo(outX, outY2);
         ctx.closePath();
         ctx.fill();
         
         ctx.beginPath();
-        ctx.moveTo(385, 400);
-        ctx.lineTo(285, 370);
-        ctx.moveTo(385, 400);
-        ctx.lineTo(285, 430);
-        ctx.moveTo(285, 370);
-        ctx.lineTo(285, 430);
+        ctx.moveTo(tdX, centerPx);
+        ctx.lineTo(outX, outY1);
+        ctx.moveTo(tdX, centerPx);
+        ctx.lineTo(outX, outY2);
+        ctx.moveTo(outX, outY1);
+        ctx.lineTo(outX, outY2);
         ctx.stroke();
     }
     ctx.setLineDash([]); // restore solid lines
@@ -859,8 +870,8 @@ canvas.addEventListener('click', (e) => {
     const clickX = e.clientX - rect.left;
     const clickY = e.clientY - rect.top;
 
-    const bx = clickX / BLOCK_SIZE;
-    const by = clickY / BLOCK_SIZE;
+    const bx = (clickX / rect.width) * GRID_SIZE;
+    const by = (clickY / rect.height) * GRID_SIZE;
 
     // Check if clicked close to an active aircraft (within 2 blocks = 20 pixels)
     let clickedPlane = null;
@@ -882,8 +893,8 @@ canvas.addEventListener('click', (e) => {
         const plane = state.aircraft.find(p => p.id === state.selectedId);
         if (plane) {
             // Limit destination within radar boundary
-            const tx = Math.max(1, Math.min(79, bx));
-            const ty = Math.max(1, Math.min(79, by));
+            const tx = Math.max(1, Math.min(GRID_SIZE - 1, bx));
+            const ty = Math.max(1, Math.min(GRID_SIZE - 1, by));
             plane.destination = { x: tx, y: ty };
             
             logRadio('ATC', `${plane.id}, proceed direct to position (${Math.round(tx)}, ${Math.round(ty)}).`, 'tower');
@@ -983,7 +994,28 @@ dom.mute.addEventListener('change', (e) => {
     audio.setMuted(e.target.checked);
 });
 
-// Window initial draw
+// Resize handler to adjust container size to panel size to prevent distortion
+function resizeRadar() {
+    const container = document.querySelector('.radar-canvas-container');
+    const panel = document.querySelector('.radar-panel');
+    if (!container || !panel) return;
+
+    const rect = panel.getBoundingClientRect();
+    const availableWidth = rect.width - 20;
+    const availableHeight = rect.height - 20;
+
+    const size = Math.min(700, availableWidth, availableHeight);
+
+    container.style.width = `${size}px`;
+    container.style.height = `${size}px`;
+}
+
+// Window initial draw and resize setup
 window.addEventListener('load', () => {
+    resizeRadar();
+    drawRadar();
+});
+window.addEventListener('resize', () => {
+    resizeRadar();
     drawRadar();
 });

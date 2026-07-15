@@ -254,8 +254,11 @@ header {
 
 /* Radar screen and elements */
 .radar-canvas-container {
-    width: 800px;
-    height: 800px;
+    width: 700px;
+    height: 700px;
+    max-width: 100%;
+    max-height: 100%;
+    aspect-ratio: 1 / 1;
     position: relative;
     border: 2px solid var(--crt-green-dim);
     box-shadow: 0 0 30px rgba(0,0,0,0.9), inset 0 0 50px rgba(5, 20, 10, 0.9);
