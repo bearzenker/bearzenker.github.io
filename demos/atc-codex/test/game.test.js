@@ -19,7 +19,7 @@ test('chat heading command turns an aircraft toward the requested heading', () =
 });
 
 test('final approach requires runway heading and altitude at or below angels five', () => {
-  const plane = { x: 470, y: 400, altitude: 5, heading: 270 };
+  const plane = { x: CONFIG.airport.x + 70, y: CONFIG.airport.y, altitude: 5, heading: 270 };
   assert.equal(inFinalApproach(plane, CONFIG), true);
   assert.equal(inFinalApproach({ ...plane, altitude: 6 }, CONFIG), false);
   assert.equal(inFinalApproach({ ...plane, heading: 180 }, CONFIG), false);

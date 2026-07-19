@@ -1,4 +1,4 @@
-# atc-antigravity
+# ATC-Claude
 This utility was created to test the Google Antigravity v2 no-code interface.
 - The utility is provided for entertainment purposes only.
 - This utility is not intended for children or minors.

@@ -1,14 +1,14 @@
 (function () {
 'use strict';
 const CONFIG = {
-  width: 800,
-  height: 800,
+  width: 700,
+  height: 700,
   blockSize: 10,
   turnPauseMs: 5000,
-  levelTurns: 80,
+  levelTurns: 75,
   maxAircraft: 6,
   spawnEveryTurns: 5,
-  airport: { x: 400, y: 400 },
+  airport: { x: 350, y: 350 },
   windFrom: 90,
   runwayHeading: 270,
   runwayLengthBlocks: 3,
