@@ -1,0 +1,72 @@
+# Conquest
+The Conquest demo was created to test the Google Antigravity V2 coding agent, backed by Gemini 3.1 Pro.
+
+Antigravity V2 is a departure from the traditional coding agents. Before May 2026, Google had introduced three code agents:
+- Command Line Agent: Simlilar to Claude Code, it ran on a local code base and performed tasks as directed.
+- Jules Cloud Agent: Ran entirely from a GCP sandbox by cloning a remote Git repo.
+- Antigravity V1: An IDE with agentic code creation, which may or may not have been a fork 
+of VS Code with a Gemini plugin.
+
+Antigravity V2 infuriated Internet devs by taking away the IDE. The application's operational model was "tell me what you want, and I'll make it happen". For Internet devs, this felt too much like "vibe coding". In the collective mind of these very vocal users thought V2 would empower workers who do not understand programming to create unsupportable "slop code".
+
+The purpose of this experiment was to evaluate if the code was a novice toy or a professional tool. Eventually all professional devs find themselves having to add a feature to a code base they do not understand. This has always been a significant pain point. But the root cause of this pain is that "dev A" wrote the code, left the org, and now "dev B" has to reverse engineer the product.
+
+What if Antigravity V2 maintained a history of all of its actions and provided a way for each Gemini 
+iteration to be aware of its predecessor's thought processes? If this were the case, each feature add 
+is not a case of divining your way through someone else's speghetti code, but instead is just 
+another Agile sprint.
+
+This was the approach that was taken with "Conquest".
+- An initial prompt was provided to define the overall objective.
+- The agent was given full autonomy to define look and feel.
+- Five sprints defined features and bug fixes.
+- Two hours was spent on the project.
+
+The outcome is presented is a minimailly functional game, without a single line of code being written.
+* Remember: the game was not the goal-- no bugs will be fixed.
+
+The sprint methodology performed as expected, but this experiment raises an important philosophical question: Do "vibe coders" understand Agile or Scrum enough create a discriplined workflow?
+
+The obvious answer is no, but "we" do.
+
+The general argument against vibe coding is that people with limited understanding are generating code from a prompt, with limited (or no) understanding of what the code does. This is the same complaint that was levied against ["cargo cult" programming](https://en.wikipedia.org/wiki/Cargo_cult_programming), where a person copied a block of code from Stack Exchange and pasted it into a project. Once accused of being a cargo cult development, a person was condemmed to perpetual side-eye from real ["console cowboys"](https://en.wikipedia.org/wiki/Burning_Chrome).
+
+Yet over the last decade very few shops has experienced a meltdown from cut and paste development. If the Stack Exchange code blocks are thought of as Legos, the cargo cult developer becomes an assembler of standardized parts. A hobbiest that makes Lego models does not need to know how to extrude the indiviual bricks to construct a completely unique model. If we brush aside the idea that vibe coding is dangerous because the creator does not understand the creation, we are back to the argument of unsupportability. 
+
+This experment demonstrated that Antigravity V2 resolves the idea of unsupportability by:
+- Opening a local folder for each application project.
+- Creating a chat list to act as memory of actions to the project.
+- Downloads the "reasoning" for the code decisions.
+
+As changes are requested, a new chat is created. Each chat represents a sprint. The agent is given instructions:
+```
+After "End Attack Phase", the players should get an army movement phase. It will work like the challenge phase, where the player will choose a territory they occupy. Instead of highlighting opponent territories (red dashed circle), it will highlight the player's connected teritories (green dashed cirle). A destination will be chosen. A popup will show the number of armies and give a +/- to move armies over, leaving at least one behind. There will be a "End Movement Phase" button.  (AI players will have the same movement capability)
+```
+The agent's thought process (reasoning) is commited to the project:
+```
+I'm now deeply considering a new phase post-attack: a Fortify/Movement Phase. Players would get to move units and set up defenses after attacks conclude, mirroring attack phase mechanics. This allows for tactical repositioning, counter-maneuvering, and strategic resource allocation after battles, adding another layer of depth to the strategy.
+
+<snip>
+```
+An implentation plan is created:
+```
+I have created the implementation plan for the new Army Movement Phase (Fortification Phase). It outlines:
+- Visual highlights for connected owned territories (glowing green dashed circles).
+- The design of a custom glassmorphic slide-control modal with increment/decrement buttons.
+- Personalized AI movement algorithms (Cautious defending, Wreckless doomstacking, and Strategic border contesting).
+- Full state machine transition logic.
+
+Please review the implementation plan and let me know if you approve so I can begin coding this feature!
+```
+In theory, every future change has access to every past decision.
+
+There is a very significant concern with Antogravity V2. The application project folder represents the Git repo. Each chat/sprint is one or more branches. At the end of the sprint, the branches are merged. Yet the institutional knowledge associated with the sprint (the chat and reasoning) is not included in the merge.
+
+Ideally, at the end of each chat, V2 would ceate a README including the prompts, reasoning, and replies. This information is written to an database instead. If dev machine were to crash, the app code could be recoverd from the remote Git repo, but the institutional knowledge would be lost. In other words... the original dev "died" and their knowledge is gone.
+
+The solution is to use the export feature to commit the chat/sprint details. Unfortunately, the export feature does not include chat context, only artifacts like the implementation plan. This is either a significant oversight, an optimistic belief in future capabilities, or vendor lock-in. 
+
+Without speculating on why, we can focus on how. The information about the sessions is stored in the users home directory under `~/.gemini/antigravity`. To avoid the "dead dev" scenario, make sure to backup this directoy.
+
+Or better yet... What if we asked V2 to make a utility that would parse the session database into a README file?  Great idea!
+

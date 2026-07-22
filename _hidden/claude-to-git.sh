@@ -14,9 +14,10 @@ echo "Found [$FILE]"
 NOSP=$(echo $FILE | sed "s/ /_/g")
 [ "$FILE" != "$NOSP" ] && mv "$DOWN/$FILE" "$DOWN/$NOSP" && FILE=$NOSP
 echo "Using [$FILE]"
+ls -l $FILE
 
-# update changed file & add new files, over write withou prompt
-unzip -uo  $DOWN/$FILE -d $DEST
+# update changed file & add new files, over write without prompt
+unzip -o  $DOWN/$FILE -d $DEST
 
 
 cd $DEST

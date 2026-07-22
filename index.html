@@ -11,7 +11,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://bearzenker.com/" />
 <meta property="og:image" content="https://bearzenker.com/images/bearzenker-bear.png" />
-<link rel="icon" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231f4030'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='18' font-weight='700' text-anchor='middle' fill='%23f3efe6'%3EB%3C/text%3E%3C/svg%3E" />
+<link rel="icon" href="images/favicon.ico" sizes="any" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -304,6 +304,17 @@
     margin-top: 32px;
   }
 
+  /* ---------- demos ---------- */
+  .demo-item { cursor: pointer; transition: opacity .2s ease; }
+  .demo-item:hover { opacity: .8; }
+  .demo-item .pillar-body h3 {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .demo-item .pillar-body h3 .arrow { color: var(--forest); transition: transform .2s ease; }
+  .demo-item:hover .pillar-body h3 .arrow { transform: translateX(4px); }
+
   /* ---------- training pillars ---------- */
   .pillars {
     display: grid;
@@ -422,6 +433,7 @@
   .sail-card-row span:last-child { color: var(--ink); }
 
   /* ---------- contact ---------- */
+  .contact { background: var(--paper-warm); }
   .contact .section-inner { padding: 100px 40px; }
   .contact-layout {
     display: grid;
@@ -500,6 +512,7 @@
     }
     .section-head { margin-bottom: 48px; }
     .pillar { grid-template-columns: 48px 1fr; gap: 20px; padding: 28px 0; }
+    .demo-item { grid-template-columns: 48px 1fr; gap: 20px; padding: 20px 0; }
     .sail-card { margin-top: 12px; }
 
     .hero-meta-row { grid-template-columns: 110px 1fr; gap: 16px; }
@@ -522,9 +535,10 @@
   <div class="topbar-inner">
     <a href="#" class="wordmark">BEARZENKER</a>
     <nav class="navlinks" aria-label="Primary">
-      <a href="#stance"><span class="num">01</span>Training</a>
+      <a href="#training"><span class="num">01</span>Training</a>
       <a href="#candidsail"><span class="num">02</span>Candid Sail</a>
-      <a href="#contact"><span class="num">03</span>Contact</a>
+      <a href="#demos"><span class="num">03</span>Demos</a>
+      <a href="#contact"><span class="num">04</span>Contact</a>
     </nav>
   </div>
 </header>
@@ -549,7 +563,7 @@
   </div>
 </section>
 
-<section class="stance" id="stance" data-screen-label="01 Training">
+<section class="stance" id="training" data-screen-label="01 Training">
   <div class="section-inner">
     <div class="stance-body">
       <div class="mono">01 — Training</div>
@@ -565,7 +579,7 @@
   </div>
 </section>
 
-<section id="training" data-screen-label="01b Training">
+<section id="pillars" data-screen-label="01b Training">
   <div class="section-inner">
     <div class="section-head">
       <div class="mono"></div>
@@ -649,10 +663,63 @@
   </div>
 </section>
 
-<section class="contact" id="contact" data-screen-label="03 Contact">
+<section class="stance demos" id="demos" data-screen-label="03 Demos">
+  <div class="section-inner">
+    <div class="stance-body">
+      <div class="mono">03 — Demos</div>
+      <div class="stance-text">
+        <p>
+          Experimentation means learning lessons — and the failures matter as much as the successes.
+        </p>
+        <p class="quiet">
+          A picture-perfect demo page would showcase nothing but wins. But pursuing excellence means making mistakes. If you don't fail, maybe you haven't tried anything new. If you don't fail, maybe you aren't even trying.
+        </p>
+        <p class="quiet">
+          That's what makes Bearzenker different. Our business model lets us fail on our time, not yours. We make controlled mistakes, document them, and present the lessons learned.
+        </p>
+        <p class="quiet">
+          And we have fun doing it. This page is fun experiments that push our boundaries — not proof we're perfect, proof we're ready.
+        </p>
+        <p class="quiet">
+          Each experiment had a specific goal, deliberately complicated enough to invite failure, but all of them recovered into a minimal viable product. Enjoy.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="demos-list" data-screen-label="03b Demos">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="mono"></div>
+      <h2 class="section-title">Two experiments, on the record.</h2>
+    </div>
+    <div class="pillars">
+      <div></div>
+      <div class="pillars-list demo-list">
+        <a class="pillar demo-item" href="demos/conquest/index.html" target="_blank" rel="noopener">
+          <div class="pillar-num">01</div>
+          <div class="pillar-body">
+            <h3>Conquest<span class="arrow" aria-hidden="true">→</span></h3>
+            <p>A Risk-style strategy game built entirely by the Google Antigravity V2 agent — five sprints, two hours, zero lines of code written by hand.</p>
+          </div>
+        </a>
+        <a class="pillar demo-item" href="demos/atc/index.html" target="_blank" rel="noopener">
+          <div class="pillar-num">02</div>
+          <div class="pillar-body">
+            <h3>ATC<span class="arrow" aria-hidden="true">→</span></h3>
+            <p>Three coding agents — Antigravity, Claude, and Codex — were handed the same air-traffic-control spec and left to build it their own way. Compare the results.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact" data-screen-label="04 Contact">
   <div class="section-inner">
     <div class="contact-layout">
-      <div class="mono">03 — Contact</div>
+      <div class="mono">04 — Contact</div>
       <div class="contact-body">
         <h2>Start a conversation.</h2>
         <a class="contact-email" href="mailto:info@bearzenker.com">info@bearzenker.com</a>
