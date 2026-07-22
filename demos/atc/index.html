@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ATC — Bearzenker Demos</title>
+<meta name="description" content="Three coding agents, one spec: comparing Antigravity, Claude, and Codex builds of an air-traffic-control simulator." />
+<link rel="icon" href="../../images/favicon.ico" sizes="any" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #0e0f0d;
+    --ink-soft: #2a2c28;
+    --ink-muted: #5b5e57;
+    --paper: #f3efe6;
+    --rule: #1a1b18;
+    --rule-soft: #cfc8b6;
+    --forest: #1f4030;
+    --forest-deep: #0e2419;
+    --forest-bright: #2e6b4d;
+  }
+  * , *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .mono {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+  header {
+    border-bottom: 1px solid var(--rule);
+    padding: 18px 40px;
+  }
+  .back {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .back:hover { color: var(--forest); }
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 80px 40px 120px;
+  }
+  .eyebrow { color: var(--ink-muted); margin-bottom: 20px; }
+  h1 {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 500;
+    font-size: clamp(36px, 4.4vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin: 0 0 28px;
+  }
+  .intro {
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 62ch;
+    color: var(--ink-soft);
+    margin: 0 0 64px;
+  }
+  .variants {
+    display: flex;
+    flex-direction: column;
+  }
+  .variant {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 32px;
+    padding: 36px 0;
+    border-top: 1px solid var(--rule-soft);
+    align-items: start;
+  }
+  .variant:first-of-type { border-top: 1px solid var(--rule); }
+  .variant:last-of-type { border-bottom: 1px solid var(--rule); }
+  .variant-num {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    color: var(--forest);
+    padding-top: 4px;
+  }
+  .variant-body h2 {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    margin: 0 0 10px;
+  }
+  .variant-body p {
+    margin: 0 0 16px;
+    color: var(--ink-soft);
+    font-size: 16px;
+    max-width: 60ch;
+  }
+  .variant-link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--forest);
+    border-bottom: 1px solid var(--forest);
+    padding-bottom: 3px;
+    transition: color .2s ease, border-color .2s ease;
+  }
+  .variant-link:hover { color: var(--ink); border-color: var(--ink); }
+  .variant-link .arrow { transition: transform .2s ease; }
+  .variant-link:hover .arrow { transform: translateX(4px); }
+  .note {
+    margin-top: 56px;
+    padding-left: 16px;
+    border-left: 2px solid var(--rule-soft);
+    color: var(--ink-muted);
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 60ch;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="back" href="../../index.html#demos">&larr; Back to Bearzenker</a>
+</header>
+
+<main>
+  <div class="eyebrow mono">Demos — 02 — ATC</div>
+  <h1>Same spec. Three agents. Three products.</h1>
+  <p class="intro">
+    Antigravity, Claude, and Codex were each handed the same air-traffic-control simulator spec and left to build it their own way, with no further guidance. No two builds took the same approach. Compare the results below.
+  </p>
+
+  <div class="variants">
+    <article class="variant">
+      <div class="variant-num">01</div>
+      <div class="variant-body">
+        <h2>ATC — Antigravity</h2>
+        <p>Built on Google Antigravity V2, backed by Gemini. The most complete of the three, including scripted audio cues.</p>
+        <a class="variant-link" href="../atc-antigravity/index.html" target="_blank" rel="noopener">Launch demo<span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </article>
+    <article class="variant">
+      <div class="variant-num">02</div>
+      <div class="variant-body">
+        <h2>ATC — Claude</h2>
+        <p>The same spec, built by Claude. A leaner interpretation of the same brief.</p>
+        <a class="variant-link" href="../atc-claude/index.html" target="_blank" rel="noopener">Launch demo<span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </article>
+    <article class="variant">
+      <div class="variant-num">03</div>
+      <div class="variant-body">
+        <h2>ATC — Codex</h2>
+        <p>The same spec, built by OpenAI Codex. A third take on the same requirements.</p>
+        <a class="variant-link" href="../atc-codex/index.html" target="_blank" rel="noopener">Launch demo<span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </article>
+  </div>
+
+  <p class="note">
+    These are technology previews, presented for entertainment purposes only. None of the generated code has been reviewed by a human. No warranty, support, or intellectual property claim is made.
+  </p>
+</main>
+
+</body>
+</html>
