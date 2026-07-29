@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Instructions — Centerfield TRACON</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="docs">
+<div class="docwrap">
+  <a class="backlink" href="index.html">&#8592; Back to the radar room</a>
+  <h1>CENTERFIELD <span>TRACON</span></h1>
+  <p class="tag">Controller's handbook — read before your first shift</p>
+
+  <h2>1. Your job</h2>
+  <p>You are the approach controller for Centerfield International (CTR), the airport in
+  the middle of your radar scope. Arriving aircraft check in from the edges of the scope.
+  Your job is to <b>vector</b> them — issue headings, altitudes and speeds — until they are
+  lined up with the runway, then <b>clear them for the ILS approach</b>. Once an aircraft is
+  established on the approach and reaches short final, the <b>tower takes over</b> and the
+  pilot lands the airplane. Your work is done when the wheels touch down.</p>
+  <p>The airport has a single east–west runway usable from both ends: <b>Runway 9</b>
+  (landing toward the east, heading 090) and <b>Runway 27</b> (landing toward the west,
+  heading 270). You may use either end — but aircraft approaching opposite ends fly
+  head-on at each other, so plan carefully.</p>
+
+  <h2>2. Reading the radar scope</h2>
+  <ul>
+    <li>The white bar at the center is the <b>runway</b>; the dashed lines extending from
+    each end are the <b>final approach courses</b>, with tick marks every 5&nbsp;NM.</li>
+    <li>Rings mark <b>10 and 20 nautical miles</b> from the field; the numbers around the
+    edge are compass bearings.</li>
+    <li>Each aircraft is a square <b>blip</b> with a velocity leader showing where it is
+    headed, a short trail showing where it has been, and a <b>data block</b>:
+    <code>DAL212</code> over <code>054&#8595;21</code> — altitude in hundreds of feet
+    (5,400&nbsp;ft, descending) and speed in tens of knots (210&nbsp;kt).</li>
+    <li>Data block tags: <span class="blue">ILS</span> = established on the approach,
+    <span class="blue">TWR</span> = handed off to tower,
+    <span class="amber">LF</span> = low fuel.</li>
+    <li>Colors: green = under your control, white = selected,
+    <span class="blue">blue</span> = on the ILS, <span class="red">red</span> = losing
+    separation.</li>
+  </ul>
+  <p>The simulation runs at 8× real time, so a 250-knot jet crosses your scope in about
+  two minutes. Think ahead.</p>
+
+  <h2>3. Controlling an aircraft</h2>
+  <p>Click a blip on the scope (or its flight strip on the right) to select it, then use
+  the <b>AIRCRAFT CONTROL</b> panel:</p>
+  <table>
+    <tr><th>Command</th><th>What it does</th></tr>
+    <tr><td>HDG</td><td>Type a heading (001–360) and press SET, or use the arrow buttons
+      for 10° / 30° turns left and right. Issuing a new heading cancels any approach
+      clearance.</td></tr>
+    <tr><td>ALT</td><td>Climb or descend in 1,000-ft steps, between 1,000 and
+      12,000&nbsp;ft. Aircraft climb and descend at realistic rates — they need time and
+      distance to lose altitude.</td></tr>
+    <tr><td>SPD</td><td>Adjust assigned speed in 10-kt steps within the aircraft's limits.
+      Slowing an aircraft is your main tool for spacing a line of arrivals.</td></tr>
+    <tr><td>APP</td><td><b>ILS RWY 9</b> / <b>ILS RWY 27</b> clears the aircraft for the
+      approach. <b>CNL</b> cancels a clearance (possible until tower handoff).</td></tr>
+  </table>
+
+  <h2>4. Getting an aircraft onto the ILS</h2>
+  <p>An approach clearance alone does nothing — the aircraft must <b>intercept</b> the
+  final approach course. To become established, at the moment it crosses the dashed
+  centerline the aircraft must be:</p>
+  <ol>
+    <li>Between about <b>1 and 22 NM</b> from the runway threshold, on the approach side;</li>
+    <li>Within about <b>1.3 NM</b> of the extended centerline;</li>
+    <li>Heading within <b>45°</b> of the runway course (a 20–30° intercept works best);</li>
+    <li>At or below <b>4,500 ft</b>, and <b>below the glideslope</b> — roughly 300&nbsp;ft
+    per NM from the runway. A good gate: <b>3,000&nbsp;ft at 10&nbsp;NM</b>.</li>
+  </ol>
+  <p>If the aircraft reports <span class="amber">"too high for the approach"</span>,
+  descend it further or turn it away, re-sequence, and try again. Once established, the
+  aircraft flies the ILS by itself: it tracks the centerline, descends on the glideslope
+  and slows to approach speed. At 7&nbsp;NM it switches to the tower and is
+  <b>cleared to land</b> — from that point its fate is out of your hands.</p>
+
+  <h2>5. Separation — and what happens when you lose it</h2>
+  <ul>
+    <li>Keep aircraft at least <b>3&nbsp;NM apart laterally or 1,000&nbsp;ft apart
+    vertically</b>. Violating both at once triggers a flashing <span class="red">red
+    conflict alert</span> and warning tone.</li>
+    <li>If two aircraft close within about <b>0.8&nbsp;NM and 400&nbsp;ft</b>, they
+    <span class="red">collide</span>. Both are lost. You are allowed to let this happen —
+    the scoring will not be kind.</li>
+    <li>Every aircraft arrives with limited <b>fuel</b> (shown on its flight strip). At low
+    fuel it declares <span class="amber">MAYDAY</span>; when the tank runs dry it goes
+    down. Don't leave anyone circling forever.</li>
+    <li>An aircraft that drifts off the edge of the scope <b>diverts</b> to another
+    airport — a smaller penalty, but no landing for you.</li>
+  </ul>
+
+  <h2>6. Scoring and levels</h2>
+  <table>
+    <tr><th>Event</th><th>Points</th></tr>
+    <tr><td>Landing</td><td>+100</td></tr>
+    <tr><td>Crash (collision or fuel exhaustion)</td><td>&#8722;200</td></tr>
+    <tr><td>Diverted off-scope</td><td>&#8722;50</td></tr>
+    <tr><td>Level passed</td><td>+1 per second left on the clock</td></tr>
+  </table>
+  <p><b>Level 1</b> gives you 5 arrivals and a generous clock. Each level adds two more
+  aircraft, shrinks the gap between arrivals, tightens fuel, and mixes in fast heavy jets
+  and slow props whose speeds don't cooperate. To pass a level you must land at least
+  <b>70%</b> of the arrivals before time runs out; passing unlocks the next level, and
+  your score carries over while you keep passing. Progress and the high score are saved
+  in your browser.</p>
+
+  <h2>7. Keyboard shortcuts</h2>
+  <table>
+    <tr><th>Key</th><th>Action</th></tr>
+    <tr><td><code>Tab</code> / <code>Shift+Tab</code></td><td>Cycle through aircraft</td></tr>
+    <tr><td><code>&#8592;</code> / <code>&#8594;</code></td><td>Turn 10° (with <code>Shift</code>: 30°)</td></tr>
+    <tr><td><code>&#8593;</code> / <code>&#8595;</code></td><td>Climb / descend 1,000 ft</td></tr>
+    <tr><td><code>[</code> / <code>]</code></td><td>Speed &#8722;10 / +10 kt</td></tr>
+    <tr><td><code>9</code> / <code>7</code></td><td>Clear ILS runway 9 / runway 27</td></tr>
+    <tr><td><code>C</code></td><td>Cancel approach clearance</td></tr>
+    <tr><td><code>P</code></td><td>Pause</td></tr>
+  </table>
+
+  <h2>8. Controller's tips</h2>
+  <ul>
+    <li>Pick a landing direction early and build one orderly line — a <b>downwind, base
+    and final</b> pattern, just like real approach control.</li>
+    <li>Start descents immediately. An aircraft at 9,000&nbsp;ft needs roughly 20&nbsp;NM
+    of track distance to get down to the glideslope.</li>
+    <li>Slow the leader, not the follower — approach speeds differ, and a 737 will eat a
+    Caravan's spacing on final in under a minute.</li>
+    <li>Use both runway ends only when the arrivals come from opposite sides and you can
+    keep the finals from meeting in the middle.</li>
+    <li>Aim for 1,000&nbsp;ft of vertical separation while sequencing; it lets aircraft
+    cross paths safely.</li>
+    <li>Low on time or fuel? Tighten the pattern — a 10&nbsp;NM final is a luxury, 4&nbsp;NM
+    is enough if the aircraft is low and slow.</li>
+  </ul>
+
+  <p style="margin-top:28px"><a class="backlink" href="index.html">&#8592; Take the scope</a></p>
+</div>
+</body>
+</html>

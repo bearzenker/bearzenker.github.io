@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Centerfield TRACON — ATC Simulator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <header id="topbar">
+    <div class="brand">CENTERFIELD <span>TRACON</span></div>
+    <div class="hud">
+      <div class="hud-item">LVL <b id="hudLevel">–</b></div>
+      <div class="hud-item">TIME <b id="hudTime">--:--</b></div>
+      <div class="hud-item">SCORE <b id="hudScore">0</b></div>
+      <div class="hud-item ok">LANDED <b id="hudLanded">0</b></div>
+      <div class="hud-item bad">LOST <b id="hudCrashed">0</b></div>
+      <div class="hud-item">ACTIVE <b id="hudActive">0</b></div>
+    </div>
+    <div class="actions">
+      <button id="btnMute" title="Toggle sound">SND ON</button>
+      <button id="btnPause">PAUSE</button>
+      <a class="btn" href="instructions.html" target="_blank">INSTRUCTIONS</a>
+      <button id="btnMenu">MENU</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="radarWrap">
+      <canvas id="radar"></canvas>
+      <div id="simRate">SIM RATE 8×</div>
+    </div>
+    <aside id="side">
+      <section id="panel">
+        <h2>AIRCRAFT CONTROL</h2>
+        <div id="selNone">No aircraft selected.<br>Click a target on the radar or a flight strip below.</div>
+        <div id="selBox" class="hidden">
+          <div id="selHead"><b id="selCS"></b> <span id="selType"></span></div>
+          <div id="selStat"></div>
+          <div class="row">
+            <label>HDG</label>
+            <button class="turnBtn" data-turn="-30" title="Turn left 30°">&#8249;&#8249;30</button>
+            <button class="turnBtn" data-turn="-10" title="Turn left 10°">&#8249;10</button>
+            <input id="hdgInput" maxlength="3" inputmode="numeric" placeholder="hdg" autocomplete="off">
+            <button id="hdgSet">SET</button>
+            <button class="turnBtn" data-turn="10" title="Turn right 10°">10&#8250;</button>
+            <button class="turnBtn" data-turn="30" title="Turn right 30°">30&#8250;&#8250;</button>
+          </div>
+          <div class="row">
+            <label>ALT</label>
+            <button id="altDn" title="Descend 1000 ft">&#9660; 1000</button>
+            <span id="altTgt" class="val"></span>
+            <button id="altUp" title="Climb 1000 ft">&#9650; 1000</button>
+          </div>
+          <div class="row">
+            <label>SPD</label>
+            <button id="spdDn">&#8722;10</button>
+            <span id="spdTgt" class="val"></span>
+            <button id="spdUp">+10</button>
+          </div>
+          <div class="row appr">
+            <label>APP</label>
+            <button id="ils9">ILS RWY 9</button>
+            <button id="ils27">ILS RWY 27</button>
+            <button id="ilsX" title="Cancel approach clearance">CNL</button>
+          </div>
+          <div id="towerNote" class="hidden">Aircraft is with TOWER — control locked.</div>
+        </div>
+      </section>
+      <section id="stripsBox">
+        <h2>FLIGHT STRIPS</h2>
+        <div id="strips"></div>
+      </section>
+      <section id="commsBox">
+        <h2>COMMS 124.35</h2>
+        <div id="comms"></div>
+      </section>
+    </aside>
+  </main>
+
+  <div id="menu" class="overlay">
+    <div class="card">
+      <h1>CENTERFIELD <span>TRACON</span></h1>
+      <p class="tag">A radar approach-control simulator</p>
+      <p>Arrivals check in from the edge of your scope. Vector them onto the ILS for
+      runway 9 or 27, keep them separated, and the tower will take them the rest of
+      the way in. Lose separation — or run a tank dry — and you lose the airplane.</p>
+      <p class="score-line">HIGH SCORE <b id="menuHigh">0</b></p>
+      <h3>SELECT LEVEL</h3>
+      <div id="levelBtns"></div>
+      <p class="menu-links"><a href="instructions.html" target="_blank">Read the instructions &#8594;</a></p>
+    </div>
+  </div>
+
+  <div id="levelEnd" class="overlay hidden">
+    <div class="card">
+      <h1 id="endTitle"></h1>
+      <div id="endStats"></div>
+      <div class="btnrow">
+        <button id="btnNext">NEXT LEVEL</button>
+        <button id="btnRetry">RETRY LEVEL</button>
+        <button id="btnEndMenu">MENU</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="pauseOv" class="overlay hidden">
+    <div class="card">
+      <h1>PAUSED</h1>
+      <div class="btnrow"><button id="btnResume">RESUME</button></div>
+    </div>
+  </div>
+</div>
+<script src="js/game.js"></script>
+</body>
+</html>

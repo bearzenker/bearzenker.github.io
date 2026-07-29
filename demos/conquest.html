@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conquest — Field Notes | Bearzenker</title>
+<meta name="description" content="Field notes on the Conquest experiment: testing whether Google Antigravity V2's chat-as-memory model solves the unsupportable-code problem in agentic coding.">
+<link rel="icon" href="../images/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Barlow+Condensed:wght@600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#111111; --parchment:#F5EED8; --bone:#EDE6D0; --gold:#C89A1A; --gold-dark:#9A7412;
+    --steel:#3D5A73; --forest:#2C4A1F; --ember:#C44A1A; --slate:#4A4A4A; --fog:#9A9080;
+    --border:rgba(17,17,17,0.12); --border-strong:rgba(17,17,17,0.24);
+    --font-display:'Cinzel','Georgia',serif; --font-heading:'Barlow Condensed','Arial Narrow',sans-serif;
+    --font-body:'Lora','Georgia',serif; --font-mono:'JetBrains Mono','Courier New',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--parchment); color:var(--ink); font-family:var(--font-body); line-height:1.7; text-wrap:pretty;}
+  a{color:var(--steel); text-decoration:none; transition:color 200ms ease;}
+  a:hover{color:var(--gold-dark);}
+  .wrap{max-width:760px; margin:0 auto; padding:0 24px 96px;}
+  header.top{display:flex; align-items:center; justify-content:space-between; padding:32px 0 24px; border-bottom:1px solid var(--border);}
+  .brand{display:flex; align-items:center; gap:10px; font-family:var(--font-heading); font-weight:700; letter-spacing:0.08em; text-transform:uppercase; font-size:0.85rem; color:var(--ink);}
+  .brand img{width:28px; height:28px; object-fit:contain; display:block;}
+  .brand:hover{color:var(--ink);}
+  .kicker{font-family:var(--font-heading); font-weight:700; letter-spacing:0.16em; text-transform:uppercase; font-size:0.75rem; color:var(--fog);}
+  h1{font-family:var(--font-display); font-weight:900; font-size:2.6rem; line-height:1.1; letter-spacing:-0.02em; margin:20px 0 8px;}
+  .dek{font-family:var(--font-body); font-style:italic; font-size:1.2rem; color:var(--slate); margin:0 0 20px; max-width:60ch;}
+  .meta-line{font-family:var(--font-mono); font-size:0.8rem; color:var(--fog); letter-spacing:0.02em; margin-bottom:40px;}
+  h2{font-family:var(--font-display); font-weight:700; font-size:1.7rem; letter-spacing:-0.02em; margin:56px 0 16px; line-height:1.2;}
+  h3{font-family:var(--font-heading); font-weight:700; font-size:1.1rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--slate); margin:32px 0 12px;}
+  p{font-size:1.05rem; color:#252221; margin:0 0 18px;}
+  ul, ol{padding-left:1.3em; margin:0 0 18px;}
+  li{font-size:1.05rem; color:#252221; margin-bottom:8px;}
+  strong{color:var(--ink);}
+  .callout{background:var(--bone); border:1px solid var(--border); border-radius:4px; box-shadow:0 2px 8px rgba(17,17,17,0.08); padding:24px 28px; margin:32px 0;}
+  .callout h3{margin-top:0; color:var(--ink);}
+  .callout ul{margin-bottom:0;}
+  .callout li{color:var(--slate);}
+  blockquote{font-family:var(--font-display); font-size:1.3rem; font-weight:700; font-style:italic; line-height:1.35; border-left:3px solid var(--gold); padding-left:24px; margin:36px 0; color:var(--ink);}
+  pre{font-family:var(--font-mono); font-size:0.85rem; line-height:1.6; background:#1c1c1c; color:#e9e2cf; border-radius:4px; padding:18px 20px; overflow-x:auto; margin:0 0 20px;}
+  code{font-family:var(--font-mono); font-size:0.85rem; background:var(--bone); border:1px solid var(--border); border-radius:2px; padding:1px 6px;}
+  pre code{background:none; border:none; padding:0;}
+  .sprint-label{font-family:var(--font-heading); font-weight:700; letter-spacing:0.1em; text-transform:uppercase; font-size:0.75rem; color:var(--gold-dark); margin-bottom:6px;}
+  figure.stat-row{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin:32px 0 40px;}
+  .stat{border:1px solid var(--border); border-radius:4px; padding:16px; background:#fff;}
+  .stat .n{font-family:var(--font-heading); font-weight:700; font-size:1.6rem; color:var(--ink);}
+  .stat .l{font-family:var(--font-heading); font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--fog);}
+  .footnote{font-size:0.85rem; color:var(--fog); font-style:italic;}
+  .cta{margin-top:64px; padding:32px 28px; background:var(--ink); border-radius:4px; text-align:center;}
+  .cta p{color:var(--parchment); opacity:0.75; margin-bottom:16px; font-size:0.95rem;}
+  .cta a.play{display:inline-block; font-family:var(--font-heading); font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.95rem; color:var(--ink); background:var(--gold); padding:14px 32px; border-radius:2px; transition:background 200ms ease;}
+  .cta a.play:hover{background:var(--gold-dark); color:var(--parchment);}
+  .cta .caveat{margin-top:16px; font-size:0.8rem; color:var(--parchment); opacity:0.55; font-style:normal;}
+  hr{border:none; border-top:1px solid var(--border); margin:56px 0;}
+  @media (max-width:600px){
+    h1{font-size:1.9rem;} figure.stat-row{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <a class="brand" href="../index.html">
+      <img src="assets/bzk_tough.png" alt="Bearzenker mark">
+      Bearzenker
+    </a>
+    <span class="kicker">Field notes</span>
+  </header>
+
+  <div class="kicker" style="margin-top:32px;">Demo write-up · Agentic coding</div>
+  <h1>Conquest: can an AI agent remember why it made a decision?</h1>
+  <p class="dek">A two-hour build with Google Antigravity V2 and Gemini 3.1 Pro, run to test a specific claim: that chat history can double as institutional memory, and stop the next engineer from reverse-engineering someone else's code.</p>
+  <div class="meta-line">Bearzenker Labs · Agent: Antigravity V2 (Gemini 3.1 Pro) · Duration: ~2 hours · Output: a playable, minimally functional game</div>
+
+  <p>We build a lot of small experiments here, mostly to stress-test whatever coding agent is making noise that month. Conquest — a browser-based territory-conquest game, human vs three bot opponents, dice-roll combat — was one of them. The game itself is not the point. It's a stand-in for a much more common situation: a codebase somebody else wrote, that you now have to change.</p>
+
+  <div class="callout">
+    <h3>TL;DR</h3>
+    <ul>
+      <li>Antigravity V2 dropped the IDE for a "tell me what you want" chat interface, which read to most developers as vibe coding for people who can't code.</li>
+      <li>We didn't test whether it can code. We tested whether it can hand off <em>why</em> it coded something the way it did — the actual bottleneck when you inherit unfamiliar code.</li>
+      <li>Its model: one project folder, one chat per sprint, reasoning and an implementation plan attached to every change. In theory, every future sprint can see every past decision.</li>
+      <li>In practice, the reasoning lives in a local session database, not in the repo. Merge the branch and the code survives; the chat that explains it doesn't.</li>
+    </ul>
+  </div>
+
+  <h2>Why we bothered</h2>
+  <p>By mid-2026 Google had shipped three different coding agents, and each one made a different bet about where a developer should stand relative to the code:</p>
+  <ul>
+    <li><strong>Command Line Agent</strong> — comparable to Claude Code: runs against your local codebase and does what you tell it, from the terminal you already live in.</li>
+    <li><strong>Jules</strong> — a cloud agent that clones a remote repo into a GCP sandbox and works there instead.</li>
+    <li><strong>Antigravity V1</strong> — an IDE with agentic code generation built in, that may or may not be a VS Code fork with a Gemini plugin.</li>
+  </ul>
+  <p>Antigravity V2 broke the pattern by removing the IDE entirely. The interaction model became "tell me what you want, and I'll make it happen" — no editor pane, no diff view by default, just a chat. Developer forums treated this as a downgrade: without an editor in the loop, the worry was that V2 would let people who don't understand programming ship code nobody could maintain — "slop code," in the vernacular.</p>
+
+  <h2>The actual question</h2>
+  <p>Whether a non-programmer can prompt their way to a demo isn't interesting — they always could, badly. The question worth testing is whether the output is <em>supportable</em>. And supportability isn't really a code-quality problem. It's a memory problem.</p>
+  <p>Every developer eventually inherits a codebase they didn't write. The engineer who built it moved teams, or left, and now someone else has to extend a system whose reasoning lives only in that first engineer's head. The code remains; the context doesn't. That's the actual, expensive failure mode — not bad syntax, but decisions with no paper trail.</p>
+  <p>So the test we set up was narrow: <strong>if an agent kept a running record of its own reasoning, and each new working session could read the previous one's record, would adding a feature start to look less like archaeology and more like a normal sprint?</strong></p>
+
+  <h2>How we ran it</h2>
+  <figure class="stat-row">
+    <div class="stat"><div class="n">1</div><div class="l">Opening prompt</div></div>
+    <div class="stat"><div class="n">5</div><div class="l">Sprints</div></div>
+    <div class="stat"><div class="n">~2 hrs</div><div class="l">Total time</div></div>
+    <div class="stat"><div class="n">0</div><div class="l">Lines hand-written</div></div>
+  </figure>
+  <p>We gave Antigravity V2 a single opening prompt describing the objective — a Risk-style territory conquest game — and otherwise left it alone. It chose its own look and feel with no design direction from us. From there, five sprints added features and fixed bugs. No line of code was written by hand at any point.</p>
+  <p class="footnote">The game itself still has rough edges. That's intentional — we were grading the process, not the polish, so we're not going back to fix bugs.</p>
+
+  <h2>What "memory" looks like in practice</h2>
+  <p>Antigravity V2's workflow maps loosely onto version control: the project folder is the repo, and every chat is effectively a branch. You open a new chat per sprint, describe the change, and the agent works inside that chat's context. Here's an actual instruction we gave it, verbatim, to add a post-combat movement phase:</p>
+  <div class="sprint-label">Sprint prompt</div>
+  <pre><code>After "End Attack Phase", the players should get an army movement phase. It will
+work like the challenge phase, where the player will choose a territory they
+occupy. Instead of highlighting opponent territories (red dashed circle), it
+will highlight the player's connected territories (green dashed circle). A
+destination will be chosen. A popup will show the number of armies and give
+a +/- to move armies over, leaving at least one behind. There will be an
+"End Movement Phase" button. (AI players will have the same movement
+capability.)</code></pre>
+  <p>Before writing anything, the agent thinks in the background, and stores its reasoning to the chat session:</p>
+  <div class="sprint-label">Stored reasoning</div>
+  <pre><code>I'm now deeply considering a new phase post-attack: a Fortify/Movement Phase.
+Players would get to move units and set up defenses after attacks conclude,
+mirroring attack phase mechanics. This allows for tactical repositioning,
+counter-maneuvering, and strategic resource allocation after battles, adding
+another layer of depth to the strategy.
+
+&lt;snip&gt;</code></pre>
+  <p>It presents an implementation plan, which it asks you to approve before touching any code:</p>
+  <div class="sprint-label">Implementation plan</div>
+  <pre><code>I have created the implementation plan for the new Army Movement Phase
+(Fortification Phase). It outlines:
+- Visual highlights for connected owned territories (glowing green dashed
+  circles).
+- The design of a custom glassmorphic slide-control modal with
+  increment/decrement buttons.
+- Personalized AI movement algorithms (cautious defending, reckless
+  doomstacking, and strategic border contesting).
+- Full state machine transition logic.
+
+Please review the implementation plan and let me know if you approve so I
+can begin coding this feature.</code></pre>
+  <p>That's the whole loop: prompt, reasoning, plan, approval, code. The idea is that the next sprint — the next chat — can look back at all of it. Every future change, in theory, has access to every past decision.</p>
+
+  <h2>Generalizing: the real objection was never comprehension</h2>
+  <p>The typical case against vibe coding is that someone with limited understanding is generating code from a prompt without knowing what it does. It's the same complaint that's been leveled for years at <a href="https://en.wikipedia.org/wiki/Cargo_cult_programming" target="_blank" rel="noopener">cargo-cult programming</a> — pasting a Stack Overflow block into a project without fully understanding it. Getting caught doing that earns you a certain amount of side-eye from <i>real</i> <a href="https://en.wikipedia.org/wiki/Neuromancer#Plot" target="_blank" rel="noopener">console cowboys</a>.</p>
+  <p>And yet very few teams have actually melted down from copy-paste development in the last decade. If you think of a Stack Overflow snippet as a Lego brick, the "cargo-cult" developer is just an assembler of standardized parts. A hobbyist doesn't need to know how to extrude an individual brick to build a genuinely original Lego model. Once you set aside "the creator didn't understand what they built" as the disqualifying problem, you're left with the objection that actually matters: <strong>can the next person support it?</strong></p>
+  <p>That's the frame Conquest was built to test, and it's why we think the finding generalizes past this one agent: comprehension-at-creation-time was never the load-bearing requirement. A documented, auditable decision trail is. Whether that trail comes from a human's PR description, a design doc, or an agent's stored reasoning, the job it does is the same.</p>
+
+  <h2>Where the model actually breaks</h2>
+  <p>Antigravity V2 gets meaningfully further than "no record at all." But there's a gap, and it's a significant one. The project folder is the repo. Each chat is a branch. At the end of a sprint, that branch merges — and the code goes in cleanly. The institutional knowledge attached to it — the chat, the reasoning, the approved plan — does not merge with it. It stays behind.</p>
+  <p>Ideally, closing a chat would generate a README capturing the prompts, the reasoning, and the replies, committed alongside the code it produced. Instead, that information is written to a local database. If the machine an engineer was working on were to burst into flames, the app code would still be recoverable from the remote repo — but the reasoning behind every decision in it would be gone. The knowledge dies with the machine, even though the person who drove the keyboard it never left.</p>
+  <p>There is an export feature, but it only saves artifacts like the implementation plan — not the reasoning, and not the chat itself. Whether that's an oversight, a bet on where the product is headed, or a soft form of lock-in isn't something we can determine from the outside, so we won't speculate. What we can tell you is where the data actually lives: on the machine that ran the session, it's under <code>~/.gemini/antigravity</code>. If you're relying on this workflow for anything real, that directory is worth backing up like you would a repo.</p>
+  <blockquote>The gap isn't that the agent doesn't reason. It's that the reasoning isn't treated as an artifact worth shipping with the code.</blockquote>
+  <p>Our half-joking, half-serious next step: ask Antigravity V2 to build its own tool that parses that local session database into a committed README. It's a small project, and the irony of asking the agent to solve its own institutional-memory problem was too good to pass up.</p>
+
+  <h2>What this means if you're evaluating agentic tools</h2>
+  <ul>
+    <li><strong>Grade the artifact trail, not just the diff.</strong> The output of an agentic sprint should include a durable record of why, not just what — and that record should live where the code lives.</li>
+    <li><strong>"Understands what it built" is the wrong bar.</strong> Humans routinely maintain code they didn't write and don't fully understand, using PR history and docs as a substitute. Agents can use the same substitute, if the tooling actually commits it.</li>
+    <li><strong>Local-only memory is a single point of failure.</strong> If reasoning lives only in a session database on one machine, back it up deliberately — the same discipline you'd already apply to any other uncommitted state.</li>
+    <li><strong>Sprint-shaped prompting works better than ongoing chat.</strong> Small, scoped requests with a review-and-approve step in between produced a coherent five-sprint build in about two hours, which tracks with how any team would want work broken down regardless of who — or what — is doing it.</li>
+  </ul>
+
+  <hr>
+
+  <div class="cta">
+    <p>See what five sprints of "tell me what you want" actually produced.</p>
+    <a class="play" href="conquest/index.html">Play the Conquest demo →</a>
+    <p class="caveat">Presented as a technology preview. The game was not the goal, so existing bugs will not be fixed.</p>
+  </div>
+
+</div>
+</body>
+</html>
