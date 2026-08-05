@@ -139,9 +139,9 @@
 
 <main>
   <div class="eyebrow mono">Demos — 02 — ATC</div>
-  <h1>Same spec. Three agents. Three products.</h1>
+  <h1>Same spec. Three agents. Three products. Plus one with no spec at all.</h1>
   <p class="intro">
-    Antigravity, Claude, and Codex were each handed the same air-traffic-control simulator spec and left to build it their own way, with no further guidance. No two builds took the same approach. Compare the results below.
+    Antigravity, Claude, and Codex were each handed the same air-traffic-control simulator spec and left to build it their own way, with no further guidance. A fourth agent, Fable, got no spec — just a short prompt naming the genre and scoring loop — as a control group. No two builds took the same approach. Compare the results below.
   </p>
 
   <div class="variants">
@@ -150,7 +150,10 @@
       <div class="variant-body">
         <h2>ATC — Antigravity</h2>
         <p>Built on Google Antigravity V2, backed by Gemini. The most complete of the three, including scripted audio cues.</p>
-        <a class="variant-link" href="../atc-antigravity/index.html" target="_blank" rel="noopener">Launch demo<span class="arrow" aria-hidden="true">→</span></a>
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <a class="variant-link" href="../atc-antigravity/instructions.dc.html">Instructions<span class="arrow" aria-hidden="true">→</span></a>
+          <a class="variant-link" href="../atc-antigravity/index.html" target="_blank" rel="noopener">Launch demo<span class="arrow" aria-hidden="true">→</span></a>
+        </div>
       </div>
     </article>
     <article class="variant">
@@ -158,7 +161,10 @@
       <div class="variant-body">
         <h2>ATC — Claude</h2>
         <p>The same spec, built by Claude. A leaner interpretation of the same brief.</p>
-        <a class="variant-link" href="../atc-claude/index.html" target="_blank" rel="noopener">Launch demo<span class="arrow" aria-hidden="true">→</span></a>
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <a class="variant-link" href="../atc-claude/instructions.dc.html">Instructions<span class="arrow" aria-hidden="true">→</span></a>
+          <a class="variant-link" href="../atc-claude/index.html" target="_blank" rel="noopener">Launch demo<span class="arrow" aria-hidden="true">→</span></a>
+        </div>
       </div>
     </article>
     <article class="variant">
@@ -166,7 +172,21 @@
       <div class="variant-body">
         <h2>ATC — Codex</h2>
         <p>The same spec, built by OpenAI Codex. A third take on the same requirements.</p>
-        <a class="variant-link" href="../atc-codex/index.html" target="_blank" rel="noopener">Launch demo<span class="arrow" aria-hidden="true">→</span></a>
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <a class="variant-link" href="../atc-codex/instructions.dc.html">Instructions<span class="arrow" aria-hidden="true">→</span></a>
+          <a class="variant-link" href="../atc-codex/index.html" target="_blank" rel="noopener">Launch demo<span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </article>
+    <article class="variant">
+      <div class="variant-num">04</div>
+      <div class="variant-body">
+        <h2>ATC — Fable</h2>
+        <p>Given no spec, just a short prompt naming the genre and scoring loop, and left to invent the rest. Fable wrote its own instructions page unprompted.</p>
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <a class="variant-link" href="../atc-fable/instructions.html">Instructions<span class="arrow" aria-hidden="true">→</span></a>
+          <a class="variant-link" href="../atc-fable/index.html" target="_blank" rel="noopener">Launch demo<span class="arrow" aria-hidden="true">→</span></a>
+        </div>
       </div>
     </article>
   </div>

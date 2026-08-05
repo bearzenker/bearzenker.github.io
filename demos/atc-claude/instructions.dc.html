@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta charset="UTF-8">
+<title>ATC — Claude: Controller's Brief | Bearzenker</title>
+<meta name="description" content="How to work the scope in the Claude build of the Bearzenker ATC simulator.">
+<link rel="icon" href="../../images/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Barlow+Condensed:wght@600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0; background:#F5EED8; color:#111111; font-family:'Lora','Georgia',serif; line-height:1.7; text-wrap:pretty;}
+  a{color:#3D5A73; text-decoration:none; transition:color 200ms ease;}
+  a:hover{color:#9A7412;}
+  img{max-width:100%;}
+</style>
+</helmet>
+<div style="max-width:760px; margin:0 auto; padding:0 24px 96px;">
+
+  <header style="display:flex; align-items:center; justify-content:space-between; padding:32px 0 24px; border-bottom:1px solid rgba(17,17,17,0.12);">
+    <a href="../../index.html" style="display:flex; align-items:center; gap:10px; font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; font-size:0.85rem; color:#111111;">
+      <img src="../assets/bzk_tough.png" alt="Bearzenker mark" style="width:28px; height:28px; object-fit:contain; display:block;">
+      Bearzenker
+    </a>
+    <span style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; font-size:0.75rem; color:#9A9080;">Controller's brief</span>
+  </header>
+
+  <div style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; font-size:0.75rem; color:#9A9080; margin-top:32px;">Build 02 · Claude Sonnet</div>
+  <h1 style="font-family:'Cinzel','Georgia',serif; font-weight:900; font-size:2.4rem; line-height:1.1; letter-spacing:-0.02em; margin:20px 0 8px;">ATC — Claude</h1>
+  <p style="font-family:'Lora','Georgia',serif; font-style:italic; font-size:1.2rem; color:#4A4A4A; margin:0 0 20px; max-width:60ch;">A square grid, blue information panels, and nothing on the screen that the specification did not ask for. The leanest of the four builds, and the easiest to learn.</p>
+  <div style="font-family:'JetBrains Mono','Courier New',monospace; font-size:0.8rem; color:#9A9080; margin-bottom:8px;">Scope is 700×700 — sized to fit a laptop browser without going full screen.</div>
+  <div style="display:flex; gap:20px; flex-wrap:wrap; font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.85rem; margin:24px 0 48px;">
+    <a href="index.html">Launch this build →</a>
+    <a href="../atc.html">Read the experiment write-up →</a>
+  </div>
+
+  <div style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; font-size:0.75rem; color:#9A7412; margin-bottom:6px;">Step 01</div>
+  <h2 style="font-family:'Cinzel','Georgia',serif; font-weight:700; font-size:1.6rem; letter-spacing:-0.02em; margin:0 0 16px; line-height:1.2;">Read the scope</h2>
+  <img src="plane1.png" alt="Aircraft entering at the edge of the radar" style="display:block; max-width:100%; margin:0 auto 16px; border:1px solid rgba(17,17,17,0.12); border-radius:4px; box-shadow:0 2px 8px rgba(17,17,17,0.08); image-rendering:crisp-edges;">
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">Aircraft enter at the edge of the radar. The dot is the airplane; the line is its direction of travel. The tag carries the flight number and the altitude in thousands of feet — <code style="font-family:'JetBrains Mono','Courier New',monospace; font-size:0.85rem; background:#EDE6D0; border:1px solid rgba(17,17,17,0.12); border-radius:2px; padding:1px 6px;">9</code> means 9,000 feet. Look closely at the call signs: this build quietly uses real airline identifiers rather than random letters.</p>
+
+  <div style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; font-size:0.75rem; color:#9A7412; margin:48px 0 6px;">Step 02</div>
+  <h2 style="font-family:'Cinzel','Georgia',serif; font-weight:700; font-size:1.6rem; letter-spacing:-0.02em; margin:0 0 16px; line-height:1.2;">Select an aircraft</h2>
+  <img src="plane2.png" alt="A selected aircraft, circled on the scope" style="display:block; max-width:100%; margin:0 auto 16px; border:1px solid rgba(17,17,17,0.12); border-radius:4px; box-shadow:0 2px 8px rgba(17,17,17,0.08); image-rendering:crisp-edges;">
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">Click the dot. The aircraft is highlighted with a circle, and it is now the target of whatever you do next — either a typed command, or a click on the map.</p>
+
+  <div style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; font-size:0.75rem; color:#9A7412; margin:48px 0 6px;">Step 03</div>
+  <h2 style="font-family:'Cinzel','Georgia',serif; font-weight:700; font-size:1.6rem; letter-spacing:-0.02em; margin:0 0 16px; line-height:1.2;">Give it somewhere to be</h2>
+  <img src="plane3.png" alt="Aircraft turning toward a clicked destination" style="display:block; max-width:100%; margin:0 auto 16px; border:1px solid rgba(17,17,17,0.12); border-radius:4px; box-shadow:0 2px 8px rgba(17,17,17,0.08); image-rendering:crisp-edges;">
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">Click a destination and the pilot steers as needed to reach it, turning 30 degrees per turn. There is no destination marker in this build — you are tracking your own plan.</p>
+  <div style="background:#EDE6D0; border:1px solid rgba(17,17,17,0.12); border-radius:4px; box-shadow:0 2px 8px rgba(17,17,17,0.08); padding:20px 24px; margin:24px 0 0;">
+    <p style="font-size:1.05rem; color:#4A4A4A; margin:0;"><strong style="color:#111111;">The mistake everyone makes:</strong> when the aircraft reaches its destination, it does not stop. It flies the same heading straight off your scope until you issue another command. Aircraft that leave the map count against your score.</p>
+  </div>
+
+  <div style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; font-size:0.75rem; color:#9A7412; margin:48px 0 6px;">Step 04</div>
+  <h2 style="font-family:'Cinzel','Georgia',serif; font-weight:700; font-size:1.6rem; letter-spacing:-0.02em; margin:0 0 16px; line-height:1.2;">Work the altitude</h2>
+  <img src="chat1.png" alt="Typing a descend command in the chat window" style="display:block; max-width:100%; margin:0 auto 16px; border:1px solid rgba(17,17,17,0.12); border-radius:4px; box-shadow:0 2px 8px rgba(17,17,17,0.08); image-rendering:crisp-edges;">
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">There is no altitude slider, and that is deliberate. Altitude is typed. Use the chat window in the lower right: give the flight number, then the command.</p>
+  <pre style="font-family:'JetBrains Mono','Courier New',monospace; font-size:0.85rem; line-height:1.6; background:#1c1c1c; color:#e9e2cf; border-radius:4px; padding:18px 20px; overflow-x:auto; margin:0 0 20px;"><code>L270   turn left to heading 270
+R090   turn right to heading 090
+H180   turn to heading 180, your choice of direction
+C11    climb to 11,000 feet
+D5     descend to 5,000 feet</code></pre>
+  <img src="chat2.png" alt="Pilot acknowledging the altitude change in chat" style="display:block; max-width:100%; margin:0 auto 16px; border:1px solid rgba(17,17,17,0.12); border-radius:4px; box-shadow:0 2px 8px rgba(17,17,17,0.08); image-rendering:crisp-edges;">
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">The pilot acknowledges and works to the ordered altitude at 2,000 feet per turn. Start descending early — a plane at 11,000 feet needs three turns of lead time before it can accept an approach.</p>
+
+  <div style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; font-size:0.75rem; color:#9A7412; margin:48px 0 6px;">Step 05</div>
+  <h2 style="font-family:'Cinzel','Georgia',serif; font-weight:700; font-size:1.6rem; letter-spacing:-0.02em; margin:0 0 16px; line-height:1.2;">Deliver it to final approach</h2>
+  <img src="landing.png" alt="Aircraft entering the approach vectors" style="display:block; max-width:100%; margin:0 auto 16px; border:1px solid rgba(17,17,17,0.12); border-radius:4px; box-shadow:0 2px 8px rgba(17,17,17,0.08); image-rendering:crisp-edges;">
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">The dotted V extending from the runway is the approach vector. Get the aircraft inside it, pointed roughly the right way, and low enough — between 2,000 and 5,000 feet — and the pilot takes over and lands. You do not fly the landing; you set it up.</p>
+  <div style="background:#EDE6D0; border:1px solid rgba(17,17,17,0.12); border-radius:4px; box-shadow:0 2px 8px rgba(17,17,17,0.08); padding:20px 24px; margin:24px 0 0;">
+    <h3 style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; font-size:1rem; letter-spacing:0.06em; text-transform:uppercase; color:#111111; margin:0 0 10px;">Three ways to lose points</h3>
+    <ul style="padding-left:1.3em; margin:0;">
+      <li style="font-size:1.05rem; color:#4A4A4A; margin-bottom:6px;">A near miss — two aircraft within two blocks at the same altitude.</li>
+      <li style="font-size:1.05rem; color:#4A4A4A; margin-bottom:6px;">A lost aircraft, flown off the edge of the scope.</li>
+      <li style="font-size:1.05rem; color:#4A4A4A; margin-bottom:0;">A collision, which is not a penalty. It is the end of the game.</li>
+    </ul>
+  </div>
+
+  <div style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; font-size:0.75rem; color:#9A7412; margin:48px 0 6px;">Step 06</div>
+  <h2 style="font-family:'Cinzel','Georgia',serif; font-weight:700; font-size:1.6rem; letter-spacing:-0.02em; margin:0 0 16px; line-height:1.2;">Fly the level out</h2>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">Level one runs 60 turns. Two aircraft start on the scope and one more arrives every five turns, six in total. Turns advance on a five-second beat, and you may issue orders during the pause.</p>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">When the clock expires, aircraft already on approach keep flying until they land — they are the tower's problem now, not yours. Once the last one is down, the chat posts your final score.</p>
+  <pre style="font-family:'JetBrains Mono','Courier New',monospace; font-size:0.85rem; line-height:1.6; background:#1c1c1c; color:#e9e2cf; border-radius:4px; padding:18px 20px; overflow-x:auto; margin:0 0 20px;"><code>=== Level complete. Final score: 600 ===</code></pre>
+
+  <hr style="border:none; border-top:1px solid rgba(17,17,17,0.12); margin:56px 0;">
+
+  <div style="padding:32px 28px; background:#111111; border-radius:4px; text-align:center;">
+    <p style="color:#F5EED8; opacity:0.75; margin:0 0 16px; font-size:0.95rem;">Scope is warm. Six inbounds and sixty turns.</p>
+    <a href="index.html" style="display:inline-block; font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.95rem; color:#111111; background:#C89A1A; padding:14px 32px; border-radius:2px;">Take the scope →</a>
+    <p style="margin-top:16px; font-size:0.8rem; color:#F5EED8; opacity:0.55;">Technology preview. Entertainment purposes only. No code here has been reviewed by a human.</p>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

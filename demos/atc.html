@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta charset="UTF-8">
+<title>ATC — Field Notes | Bearzenker</title>
+<meta name="description" content="Four coding agents, one air-traffic-control spec. Field notes on where fully-specified requirements still produce four different products.">
+<link rel="icon" href="../images/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Barlow+Condensed:wght@600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0; background:#F5EED8; color:#111111; font-family:'Lora','Georgia',serif; line-height:1.7; text-wrap:pretty;}
+  a{color:#3D5A73; text-decoration:none; transition:color 200ms ease;}
+  a:hover{color:#9A7412;}
+  img{max-width:100%;}
+</style>
+</helmet>
+<div style="max-width:760px; margin:0 auto; padding:0 24px 96px;">
+
+  <header style="display:flex; align-items:center; justify-content:space-between; padding:32px 0 24px; border-bottom:1px solid rgba(17,17,17,0.12);">
+    <a href="../index.html" style="display:flex; align-items:center; gap:10px; font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; font-size:0.85rem; color:#111111;">
+      <img src="assets/bzk_tough.png" alt="Bearzenker mark" style="width:28px; height:28px; object-fit:contain; display:block;">
+      Bearzenker
+    </a>
+    <span style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; font-size:0.75rem; color:#9A9080;">Field notes</span>
+  </header>
+
+  <div style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; font-size:0.75rem; color:#9A9080; margin-top:32px;">Demo write-up · Agentic coding</div>
+  <h1 style="font-family:'Cinzel','Georgia',serif; font-weight:900; font-size:2.6rem; line-height:1.1; letter-spacing:-0.02em; margin:20px 0 8px;">ATC: four agents, one blueprint, four different airports</h1>
+  <p style="font-family:'Lora','Georgia',serif; font-style:italic; font-size:1.2rem; color:#4A4A4A; margin:0 0 20px; max-width:60ch;">We wrote the most complete requirements document we could stand to write, handed the same file to three coding agents, and then handed a four-sentence version to a fourth. Eli Whitney would have expected four identical rifles. We got four airports.</p>
+  <div style="font-family:'JetBrains Mono','Courier New',monospace; font-size:0.8rem; color:#9A9080; letter-spacing:0.02em; margin-bottom:40px;">Bearzenker Labs · Agents: Antigravity V2 (Gemini), Claude Sonnet, Codex (GPT-5.6 Luna), Claude Fable 5 · Output: four playable browser games</div>
+
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">Our last experiment, <a href="conquest.html">Conquest</a>, ran a single agent through five Agile-shaped sprints and graded the paper trail. This one flips both variables. One agent becomes four. Five sprints become one drop of fully-specified requirements — waterfall, on purpose. The product is an air traffic control simulator: planes enter the edge of a radar scope, you vector them onto final approach, the tower takes it from there.</p>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">The game is not the point. The point is a question every engineering manager has quietly wondered about since these tools shipped: <strong>if the spec is complete enough, does it matter which agent builds it?</strong></p>
+
+  <div style="background:#EDE6D0; border:1px solid rgba(17,17,17,0.12); border-radius:4px; box-shadow:0 2px 8px rgba(17,17,17,0.08); padding:24px 28px; margin:32px 0;">
+    <h3 style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; font-size:1.1rem; letter-spacing:0.06em; text-transform:uppercase; color:#111111; margin:0 0 12px;">TL;DR</h3>
+    <ul style="padding-left:1.3em; margin:0;">
+      <li style="font-size:1.05rem; color:#4A4A4A; margin-bottom:8px;">Every agent met the requirements. Nobody shipped a butter knife when we asked for a spoon.</li>
+      <li style="font-size:1.05rem; color:#4A4A4A; margin-bottom:8px;">Every agent produced a visibly different product anyway — different radar geometry, different chrome, different amount of invented feature.</li>
+      <li style="font-size:1.05rem; color:#4A4A4A; margin-bottom:8px;">We planted a trap: a critical success factor deliberately left out of the spec, to see who would invent a feature to cover it. Nobody took the bait.</li>
+      <li style="font-size:1.05rem; color:#4A4A4A; margin-bottom:0;">The hardest bug of the whole experiment was a CSS overflow, not a flight-dynamics error. Think about what that means for the "you don't need developers anymore" pitch.</li>
+    </ul>
+  </div>
+
+  <h2 style="font-family:'Cinzel','Georgia',serif; font-weight:700; font-size:1.7rem; letter-spacing:-0.02em; margin:56px 0 16px; line-height:1.2;">Why air traffic control</h2>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">Conquest had a cheat built into it. Ask any model for a Risk-style conquest game and it already knows the shape of the answer — the board game is famous, the rules are documented in a thousand places, and copyright guardrails are the only thing standing between the prompt and a near-perfect replica. The model isn't inventing; it's recalling.</p>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">Air traffic control has no such cultural template. There is no mass-market ATC board game. There is literature about the job, but for most people the radar scope is an unknown realm, and only working pilots and controllers can judge whether a simulation feels right. That makes it an excellent test subject: almost everything on the screen has to be <em>invented</em> from the requirements rather than recalled from training data.</p>
+
+  <h2 style="font-family:'Cinzel','Georgia',serif; font-weight:700; font-size:1.7rem; letter-spacing:-0.02em; margin:56px 0 16px; line-height:1.2;">Waterfall, deliberately</h2>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">Let us take a moment on methodology, because the word "waterfall" gets used as an insult and it shouldn't. Conquest was Agile-shaped: the goal was known, the features arrived incrementally, and each sprint got a review gate. ATC is the opposite. Everything went in up front — screen layout, block size, aircraft physics, command syntax, landing geometry, scoring — with the expectation of a fully functional MVP on first delivery. Additional prompts only if the thing wasn't fit for purpose.</p>
+  <div style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; font-size:0.75rem; color:#9A7412; margin-bottom:6px;">Spec excerpt — flight dynamics</div>
+  <pre style="font-family:'JetBrains Mono','Courier New',monospace; font-size:0.85rem; line-height:1.6; background:#1c1c1c; color:#e9e2cf; border-radius:4px; padding:18px 20px; overflow-x:auto; margin:0 0 20px;"><code>Aircraft default physics:
+- speed of one block per turn
+- change altitude at a rate of 2 Angels per turn
+- turn at 30 degrees of heading per turn
+
+The 800 pixel wide screen will have 80 blocks. An aircraft on heading 90
+(due east) with a speed of 1 will cross the radar screen in 80 turns, but
+an Air Force fighter with speed of 2 will cross in 40 turns.</code></pre>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">That is about as unambiguous as prose gets. Pixels per block, degrees per turn, thousands of feet per turn. If specification precision alone were enough to make outputs converge, this is where it would show.</p>
+
+  <h2 style="font-family:'Cinzel','Georgia',serif; font-weight:700; font-size:1.7rem; letter-spacing:-0.02em; margin:56px 0 16px; line-height:1.2;">The standardized-parts hypothesis</h2>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">Think back to Eli Whitney and interchangeable parts. Given exact blueprints, different factories should produce the same object. World War II proved it at scale — the Rock-Ola jukebox company built rifles. They had a factory. Jukeboxes are metal. Rifles are metal. Rock-Ola just needed the blueprints.</p>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">So: given a fully specified set of requirements, will different agents generate the same output? Fred Brooks answered this in 1986, before anyone was worried about AI, in <a href="https://en.wikipedia.org/wiki/No_Silver_Bullet" target="_blank" rel="noopener">No Silver Bullet</a>. He separated the machine's physical nature from software's creative essence. Ask ten people to draw an elephant and you get ten drawings, because you asked for an abstraction, not a replica of something physical. Requirements describe non-physical outcomes. Every subroutine is a small act of invention.</p>
+  <blockquote style="font-family:'Cinzel','Georgia',serif; font-size:1.3rem; font-weight:700; font-style:italic; line-height:1.35; border-left:3px solid #C89A1A; padding-left:24px; margin:36px 0; color:#111111;">The only blueprint precise enough to guarantee identical code is the code itself.</blockquote>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">Rock-Ola's machinists had the skill to build a rifle from blueprints. They did not necessarily have the skill to invent the prototype. Developers — and now agents — have to do both, every time, at the level of the individual function. So our hypothesis going in was straightforward: the outputs will differ. The interesting question is <em>how</em>, and how well each one still meets the brief.</p>
+
+  <h2 style="font-family:'Cinzel','Georgia',serif; font-weight:700; font-size:1.7rem; letter-spacing:-0.02em; margin:56px 0 16px; line-height:1.2;">Two ways to fail</h2>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">The obvious failure is under-delivery: you asked for a soup spoon and got a butter knife. Get a fork and you have a 90% solution — awkward, but recognizably in the family.</p>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">The second failure mode is the one people don't flag, because it sounds like generosity: <strong>over-delivery</strong>. Agents add features nobody asked for. Human teams chase shiny objects too, so this shouldn't surprise anyone. It's dangerous because you cannot easily tell how load-bearing the unrequested feature has become. If the agent's good idea quietly conflicts with your plan, removing it later can pull three other things down with it. Unrequested code is untested surface area you now own.</p>
+
+  <div style="background:#EDE6D0; border:1px solid rgba(17,17,17,0.12); border-radius:4px; box-shadow:0 2px 8px rgba(17,17,17,0.08); padding:24px 28px; margin:32px 0;">
+    <h3 style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; font-size:1.1rem; letter-spacing:0.06em; text-transform:uppercase; color:#111111; margin:0 0 12px;">The altitude trap</h3>
+    <p style="font-size:1.05rem; color:#4A4A4A; margin:0 0 12px;">One critical success factor was left out of the spec on purpose. Altitude is the whole game — you cannot land above 5,000 feet — but the requirements only ever describe altitude changing through typed chat commands (<code style="font-family:'JetBrains Mono','Courier New',monospace; font-size:0.85rem; background:#F5EED8; border:1px solid rgba(17,17,17,0.12); border-radius:2px; padding:1px 6px;">C7</code> to climb, <code style="font-family:'JetBrains Mono','Courier New',monospace; font-size:0.85rem; background:#F5EED8; border:1px solid rgba(17,17,17,0.12); border-radius:2px; padding:1px 6px;">D5</code> to descend). No slider. No buttons. Any product designer looking at that screen would want to add one.</p>
+    <p style="font-size:1.05rem; color:#4A4A4A; margin:0;">Not one of the three agents built it. Every one of them honored the omission and left altitude on the keyboard. That is the single most reassuring result of the experiment: they read the spec as a boundary, not a suggestion.</p>
+  </div>
+
+  <h2 style="font-family:'Cinzel','Georgia',serif; font-weight:700; font-size:1.7rem; letter-spacing:-0.02em; margin:56px 0 16px; line-height:1.2;">The field</h2>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 32px;">Three agents, one spec file, no design direction. Here is what came back.</p>
+
+  <article style="border:1px solid rgba(17,17,17,0.12); border-radius:4px; background:#ffffff; box-shadow:0 2px 8px rgba(17,17,17,0.08); padding:24px 26px; margin:0 0 24px;">
+    <div style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; font-size:0.75rem; color:#9A7412; margin-bottom:4px;">Build 01 · Google Antigravity V2 (Gemini)</div>
+    <h3 style="font-family:'Cinzel','Georgia',serif; font-weight:700; font-size:1.35rem; margin:0 0 12px; color:#111111;">The over-achiever</h3>
+    <img src="atc-antigravity/landing.png" alt="Antigravity build: circular green radar scope with approach vectors" style="display:block; max-width:100%; margin:0 auto 16px; border:1px solid rgba(17,17,17,0.12); border-radius:2px; image-rendering:crisp-edges;">
+    <p style="font-size:1.05rem; color:#252221; margin:0 0 14px;">A genuinely handsome interface: traditional green-on-black circular scope. It over-delivered immediately — pause and 2× speed controls nobody asked for — but its inventions were tasteful. A destination marker reminds you where each aircraft is heading, and clicking a plane arms it in the chat window, so you type <code style="font-family:'JetBrains Mono','Courier New',monospace; font-size:0.85rem; background:#EDE6D0; border:1px solid rgba(17,17,17,0.12); border-radius:2px; padding:1px 6px;">D5</code> instead of the full flight number.</p>
+    <p style="font-size:1.05rem; color:#252221; margin:0 0 14px;">One bug: end of level reported a score of zero. A single diagnostic prompt found it — penalties for lost aircraft had pushed the first run <em>negative</em>, and the display rounded up. The fix was a per-condition score recap plus a final score allowed to go below zero. Worth noting the agent explained the cause before it changed anything.</p>
+    <div style="display:flex; gap:20px; flex-wrap:wrap; font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.85rem;">
+      <a href="atc-antigravity/instructions.dc.html">Instructions →</a>
+      <a href="atc-antigravity/index.html">Play this build →</a>
+    </div>
+  </article>
+
+  <article style="border:1px solid rgba(17,17,17,0.12); border-radius:4px; background:#ffffff; box-shadow:0 2px 8px rgba(17,17,17,0.08); padding:24px 26px; margin:0 0 24px;">
+    <div style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; font-size:0.75rem; color:#9A7412; margin-bottom:4px;">Build 02 · Claude Sonnet</div>
+    <h3 style="font-family:'Cinzel','Georgia',serif; font-weight:700; font-size:1.35rem; margin:0 0 12px; color:#111111;">The literalist</h3>
+    <img src="atc-claude/landing.png" alt="Claude build: square green grid radar scope" style="display:block; max-width:100%; margin:0 auto 16px; border:1px solid rgba(17,17,17,0.12); border-radius:2px; image-rendering:crisp-edges;">
+    <p style="font-size:1.05rem; color:#252221; margin:0 0 14px;">Green-on-black again, but a square grid rather than a circular sweep, with blue information panels. No extra display chrome. Point-and-click, flight dynamics, and the command set all behave as written. No tweaks or bug fixes were requested at any point.</p>
+    <p style="font-size:1.05rem; color:#252221; margin:0 0 14px;">Its one addition is a good one: when the clock runs out, aircraft already on approach keep flying until they land, and only then does the level close with a final score. The reasoning is sound — those planes are under tower control, so the controller is no longer in the loop. It also slipped in real-world airline call signs instead of random letters, which is the kind of detail a person notices and a spec never asks for.</p>
+    <div style="display:flex; gap:20px; flex-wrap:wrap; font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.85rem;">
+      <a href="atc-claude/instructions.dc.html">Instructions →</a>
+      <a href="atc-claude/index.html">Play this build →</a>
+    </div>
+  </article>
+
+  <article style="border:1px solid rgba(17,17,17,0.12); border-radius:4px; background:#ffffff; box-shadow:0 2px 8px rgba(17,17,17,0.08); padding:24px 26px; margin:0 0 24px;">
+    <div style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; font-size:0.75rem; color:#9A7412; margin-bottom:4px;">Build 03 · Codex (GPT-5.6 Luna)</div>
+    <h3 style="font-family:'Cinzel','Georgia',serif; font-weight:700; font-size:1.35rem; margin:0 0 12px; color:#111111;">Perfect logic, broken layout</h3>
+    <img src="atc-codex/landing.png" alt="Codex build: circular green scope with rounded green information panels" style="display:block; max-width:100%; margin:0 auto 16px; border:1px solid rgba(17,17,17,0.12); border-radius:2px; image-rendering:crisp-edges;">
+    <p style="font-size:1.05rem; color:#252221; margin:0 0 14px;">Run on OpenAI's least powerful model in the family. From a requirements standpoint it was perfect out of the box — strict MVP adherence, nothing invented, nothing missing. Circular scope, rounded green panels.</p>
+    <p style="font-size:1.05rem; color:#252221; margin:0 0 14px;">Then the chat window overflowed its container and text disappeared behind the frame. A textbook CSS problem, and it took three rounds of conversation to talk the model through the fix. Sit with that for a second: the simulation math was flawless, and the thing that nearly sank the build was <code style="font-family:'JetBrains Mono','Courier New',monospace; font-size:0.85rem; background:#EDE6D0; border:1px solid rgba(17,17,17,0.12); border-radius:2px; padding:1px 6px;">overflow</code>. Somebody with no HTML and CSS background would likely have been stuck — they could screenshot the problem and attach it, but they'd still be guessing at which of the model's suggestions was progress.</p>
+    <div style="display:flex; gap:20px; flex-wrap:wrap; font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.85rem;">
+      <a href="atc-codex/instructions.dc.html">Instructions →</a>
+      <a href="atc-codex/index.html">Play this build →</a>
+    </div>
+  </article>
+
+  <h2 style="font-family:'Cinzel','Georgia',serif; font-weight:700; font-size:1.7rem; letter-spacing:-0.02em; margin:56px 0 16px; line-height:1.2;">The control group: maximum autonomy</h2>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">The fourth build exists to bracket the experiment from the other end. Claude Fable 5 got no spec file — just a short paragraph naming the genre, the platform, and the scoring loop, and then total freedom. Pay-per-token, which also gave us a number nobody usually publishes: the entire build cost <strong>$14.18</strong>, on what is typically the most expensive model per token.</p>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">It came back flawless out of the box. It is also nearly impossible to play. Fable built a real approach-control simulation: mixed aircraft types from 777s down to Cessnas, realistic airspeeds, relative-heading vectors, explicit clearance to land, plus invented fuel states and mayday conditions. It took four attempts to land a single airplane. The collision alerts, we admit, are excellent.</p>
+  <div style="background:#EDE6D0; border:1px solid rgba(17,17,17,0.12); border-radius:4px; box-shadow:0 2px 8px rgba(17,17,17,0.08); padding:24px 28px; margin:32px 0;">
+    <h3 style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; font-size:1.1rem; letter-spacing:0.06em; text-transform:uppercase; color:#111111; margin:0 0 12px;">The lesson hiding in the control group</h3>
+    <p style="font-size:1.05rem; color:#4A4A4A; margin:0;">We asked for "realistic" and got realistic. We never said "fun," and we never said "learnable in five minutes." Autonomy didn't produce a worse engineer — it produced a product with no product manager. The constraints in the big spec weren't bureaucracy; they were the parts of the design that made the thing playable. Anything you leave out, the agent will decide for you, confidently.</p>
+  </div>
+  <div style="display:flex; gap:20px; flex-wrap:wrap; font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.85rem; margin-bottom:8px;">
+    <a href="atc-fable/instructions.html">Fable's own handbook →</a>
+    <a href="atc-fable/index.html">Play this build →</a>
+  </div>
+  <p style="font-size:0.85rem; color:#9A9080; font-style:italic;">Fable wrote its own instructions page without being asked. That page is the agent's, unedited — we left it that way on purpose.</p>
+
+  <h2 style="font-family:'Cinzel','Georgia',serif; font-weight:700; font-size:1.7rem; letter-spacing:-0.02em; margin:56px 0 16px; line-height:1.2;">What converged, and what didn't</h2>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">The pattern is cleaner than we expected, and it splits along a line worth memorizing.</p>
+  <h3 style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; font-size:1.1rem; letter-spacing:0.06em; text-transform:uppercase; color:#4A4A4A; margin:32px 0 12px;">Converged — anything with a number attached</h3>
+  <ul style="padding-left:1.3em; margin:0 0 18px;">
+    <li style="font-size:1.05rem; color:#252221; margin-bottom:8px;">Flight dynamics: one block per turn, 30° per turn, 2 Angels per turn. Identical behavior across all three.</li>
+    <li style="font-size:1.05rem; color:#252221; margin-bottom:8px;">Command syntax, landing geometry, the approach-vector handoff to the tower.</li>
+    <li style="font-size:1.05rem; color:#252221; margin-bottom:8px;">Click-to-select, click-to-destination, and the "it doesn't stop when it arrives" behavior.</li>
+  </ul>
+  <h3 style="font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; font-size:1.1rem; letter-spacing:0.06em; text-transform:uppercase; color:#4A4A4A; margin:32px 0 12px;">Diverged — everything the spec left to taste</h3>
+  <ul style="padding-left:1.3em; margin:0 0 18px;">
+    <li style="font-size:1.05rem; color:#252221; margin-bottom:8px;">Scope geometry: circular sweep versus square grid. The spec said "800x800 square radar screen" and two agents drew a circle inside it.</li>
+    <li style="font-size:1.05rem; color:#252221; margin-bottom:8px;">Code architecture: one 36 KB game file, ten small modules, or a src/test split with a package.json.</li>
+    <li style="font-size:1.05rem; color:#252221; margin-bottom:8px;">Invented features: speed controls and audio on one end, real airline call signs on the other, nothing at all in the middle.</li>
+    <li style="font-size:1.05rem; color:#252221; margin-bottom:8px;">End-of-level behavior — which is where the spec genuinely was silent, and where every agent had to make a judgment call.</li>
+  </ul>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">Brooks holds up. Quantified requirements are blueprints and reproduce faithfully. Everything else is an elephant drawing, and you will get one per agent.</p>
+
+  <h2 style="font-family:'Cinzel','Georgia',serif; font-weight:700; font-size:1.7rem; letter-spacing:-0.02em; margin:56px 0 16px; line-height:1.2;">What to take back to your team</h2>
+  <ul style="padding-left:1.3em; margin:0 0 18px;">
+    <li style="font-size:1.05rem; color:#252221; margin-bottom:8px;"><strong>Quantify the parts you actually care about.</strong> Numbers reproduce. Adjectives don't. If "realistic" matters more to you than "playable," say so — because whichever you leave unsaid is the one you'll lose.</li>
+    <li style="font-size:1.05rem; color:#252221; margin-bottom:8px;"><strong>Grade over-delivery as a defect.</strong> Put unrequested features in the review the same way you'd flag missing ones. They're cheap to accept and expensive to remove.</li>
+    <li style="font-size:1.05rem; color:#252221; margin-bottom:8px;"><strong>Silence is an instruction.</strong> The altitude trap worked because omission read as constraint. That cuts both ways — every gap in your spec is a decision you delegated without noticing.</li>
+    <li style="font-size:1.05rem; color:#252221; margin-bottom:8px;"><strong>The last mile is presentation, not logic.</strong> The worst bug in four builds was a CSS overflow. Agents are strong at simulation math and weak at "why is my div doing that," which is exactly backwards from where most teams expect to spend their review time.</li>
+    <li style="font-size:1.05rem; color:#252221; margin-bottom:8px;"><strong>Test on the machine your users have.</strong> The 800×800 canvas broke click-to-select on a laptop until we went full screen. The spec author — us — wrote a resolution that a real browser chrome couldn't hold. Later builds were dropped to 700×700.</li>
+  </ul>
+  <p style="font-size:1.05rem; color:#252221; margin:0 0 18px;">If you want to run this yourself, and you should, it is a cheap exercise: write one spec, hand it to whatever two agents you already pay for, and diff the results by hand. You'll learn more about your own requirements writing than about the models.</p>
+
+  <hr style="border:none; border-top:1px solid rgba(17,17,17,0.12); margin:56px 0;">
+
+  <div style="margin-top:16px; padding:32px 28px; background:#111111; border-radius:4px; text-align:center;">
+    <p style="color:#F5EED8; opacity:0.75; margin:0 0 16px; font-size:0.95rem;">Four builds, one spec. Take the scope for a shift and see which one you'd rather work.</p>
+    <a href="atc/index.html" style="display:inline-block; font-family:'Barlow Condensed','Arial Narrow',sans-serif; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.95rem; color:#111111; background:#C89A1A; padding:14px 32px; border-radius:2px; transition:background 200ms ease;" style-hover="background:#9A7412; color:#F5EED8;">Open the ATC demos →</a>
+    <p style="margin-top:16px; font-size:0.8rem; color:#F5EED8; opacity:0.55;">Presented as a technology preview. None of the generated code has been reviewed by a human. The games were not the goal, so existing bugs will not be fixed.</p>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
